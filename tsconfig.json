@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    /* File Layout */
+    "rootDir": "./src", // where your TS files live
+    "outDir": "./dist", // compiled JS output
+
+    /* Environment Settings */
+    "target": "ES6", // modern browser support
+    "module": "ESNext", // so we can use import/export
+    "lib": ["DOM", "ESNext"], // DOM types + latest JS features
+
+    /* Debugging */
+    "sourceMap": true, // so devtools show TS instead of JS
+
+    /* Type Safety */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+
+    /* Performance */
+    "skipLibCheck": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

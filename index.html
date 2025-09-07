@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/images/favicon-32x32.png"
+    />
+
+    <title>Frontend Mentor | Weather app</title>
+
+    <link rel="stylesheet" href="./dist/output.css" />
+
+    <script type="module" src="./dist/appController.js"></script>
+  </head>
+
+  <!-- :root {
+  --Neutral-900: #03012d;
+  --Neutral-800: #272541;
+  --Neutral-700: #312f4b;
+  --Neutral-600: #3d3b5e;
+  --Neutral-300: #aeaeb7;
+  --Neutral-200: #d5d4d9;
+  --Neutral-0: #ffffff;
+  --Ornge-500: #ff7c0a;
+  --Blue-500: #4455da;
+  --Blue-700: #2d1c9c;
+} -->
+
+  <body
+    class="bg-[var(--Neutral-900)] min-h-screen text-white p-10 lg:px-20 xl:px-30"
+  >
+    <header class="flex justify-between items-center">
+      <!-- Logo  -->
+      <div class="w-35">
+        <img class="size-full" src="./assets/images/logo.svg" alt="sun logo" />
+      </div>
+
+      <!-- Unit  -->
+      <div
+        class="flex gap-1.5 items-center p-2 px-3 bg-[var(--Neutral-700)] rounded-md relative"
+      >
+        <img
+          class="size-3"
+          src="./assets/images/icon-units.svg"
+          alt="icon-units"
+        />
+        <small>Units</small>
+        <img
+          class="size-3"
+          src="./assets/images/icon-dropdown.svg"
+          alt="icon-checkmark"
+        />
+
+        <!-- Unit dropdown -->
+        <div
+          class="absolute w-[190px] right-0 top-[100%] mt-2 bg-[var(--Neutral-800)] rounded-md p-1 z-10 hidden"
+        >
+          <!-- Switch to imperial  -->
+          <div
+            class="p-1 flex justify-between items-center hover:bg-[var(--Neutral-700)] rounded-md"
+          >
+            <p class="font-semibold text-sm text-nowrap">Switch to imperial</p>
+            <img
+              class="size-3"
+              src="./assets/images/icon-checkmark.svg"
+              alt=""
+            />
+          </div>
+
+          <!-- Choose Temperature  -->
+          <div class="border-b">
+            <small class="ml-1">Temperature</small>
+            <div
+              class="p-1 flex justify-between items-center hover:bg-[var(--Neutral-700)] rounded-md"
+            >
+              <p class="font-semibold text-sm text-nowrap">Celsius(20°)</p>
+              <img
+                class="size-3"
+                src="./assets/images/icon-checkmark.svg"
+                alt=""
+              />
+            </div>
+            <div
+              class="p-1 flex justify-between items-center hover:bg-[var(--Neutral-700)] rounded-md"
+            >
+              <p class="font-semibold text-sm text-nowrap">Fahrenheit(°F)</p>
+              <img
+                class="size-3"
+                src="./assets/images/icon-checkmark.svg"
+                alt=""
+              />
+            </div>
+          </div>
+
+          <!-- Choose Wind Speed  -->
+          <div class="border-b">
+            <small class="ml-1">Wind speed</small>
+            <div
+              class="p-1 flex justify-between items-center hover:bg-[var(--Neutral-700)] rounded-md"
+            >
+              <p class="font-semibold text-sm text-nowrap">km/h</p>
+              <img
+                class="size-3"
+                src="./assets/images/icon-checkmark.svg"
+                alt=""
+              />
+            </div>
+            <div
+              class="p-1 flex justify-between items-center hover:bg-[var(--Neutral-700)] rounded-md"
+            >
+              <p class="font-semibold text-sm text-nowrap">mph</p>
+              <img
+                class="size-3"
+                src="./assets/images/icon-checkmark.svg"
+                alt=""
+              />
+            </div>
+          </div>
+
+          <!-- Choose Precipitation  -->
+          <div class="border-b">
+            <small class="ml-1">Precipitation</small>
+            <div
+              class="p-1 flex justify-between items-center hover:bg-[var(--Neutral-700)] rounded-md"
+            >
+              <p class="font-semibold text-sm text-nowrap">Millimeter(mm)</p>
+              <img
+                class="size-3"
+                src="./assets/images/icon-checkmark.svg"
+                alt=""
+              />
+            </div>
+            <div
+              class="p-1 flex justify-between items-center hover:bg-[var(--Neutral-700)] rounded-md"
+            >
+              <p class="font-semibold text-sm text-nowrap">Fahrenheit(°F)</p>
+              <img
+                class="size-3"
+                src="./assets/images/icon-checkmark.svg"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="">
+      <h1 class="text-4xl text-center font-bold mt-20 mb-10">
+        How's the sky looking today?
+      </h1>
+
+      <!-- Input City  -->
+      <form class="max-w-[450px] mx-auto flex gap-3">
+        <label
+          for="searchInput"
+          class="bg-[var(--Neutral-700)] flex flex-1 items-center p-2 rounded-md"
+        >
+          <img
+            class="size-5"
+            src="./assets/images/icon-search.svg"
+            alt="icon-search" />
+          <input
+            id="searchInput"
+            class="px-2 min-w-2 w-full border-0 outline-0"
+            placeholder="Search for a place"
+            type="text"
+        /></label>
+        <button
+          class="px-4 py-1 text-sm font-semibold bg-[var(--Blue-500)] rounded-md"
+        >
+          Search
+        </button>
+      </form>
+
+      <section class="grid lg:grid-cols-3 gap-7 mt-10">
+        <!-- City Weather Stats  -->
+        <section class="col-span-2">
+          <!-- Hero Section  -->
+          <div
+            id="today-image"
+            class="flex justify-between gap-4 py-10 xl:py-15 px-4 rounded-lg"
+          >
+            <div>
+              <p class="font-semibold text-xl">Berlin, Germany</p>
+              <small class="text-[var(--Neutral-200)]"
+                >Tuesday, Aug 5, 2025</small
+              >
+            </div>
+            <div class="flex items-center gap-4">
+              <img
+                class="size-15"
+                src="./assets/images/icon-sunny.webp"
+                alt="icon-sunny"
+              />
+              <p class="font-semibold text-6xl">20°</p>
+            </div>
+          </div>
+
+          <!-- Weather Stats  -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-7">
+            <div class="bg-[var(--Neutral-600)] p-3 rounded-md">
+              <small>Feels like</small>
+              <p class="mt-2 text-xl">18°</p>
+            </div>
+            <div class="bg-[var(--Neutral-600)] p-3 rounded-md">
+              <small>Humidity</small>
+              <p class="mt-2 text-xl">48%</p>
+            </div>
+            <div class="bg-[var(--Neutral-600)] p-3 rounded-md">
+              <small>Wind</small>
+              <p class="mt-2 text-xl">14 km/h</p>
+            </div>
+            <div class="bg-[var(--Neutral-600)] p-3 rounded-md">
+              <small>Precipitation</small>
+              <p class="mt-2 text-xl">0 mm</p>
+            </div>
+          </div>
+
+          <!-- Daily forecast  -->
+          <div class="mt-9">
+            <p>Daily forecast</p>
+            <div id="forecast-grid" class="gap-4 mt-4">
+              <div class="p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md">
+                <p class="text-center">Tue</p>
+                <img
+                  class="size-10 mx-auto"
+                  src="./assets/images/icon-rain.webp"
+                  alt="icon-rain"
+                />
+                <div class="flex justify-between">
+                  <small>20°</small>
+                  <small>20°</small>
+                </div>
+              </div>
+              <div class="p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md">
+                <p class="text-center">Tue</p>
+                <img
+                  class="size-10 mx-auto"
+                  src="./assets/images/icon-rain.webp"
+                  alt="icon-rain"
+                />
+                <div class="flex justify-between">
+                  <small>20°</small>
+                  <small>20°</small>
+                </div>
+              </div>
+              <div class="p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md">
+                <p class="text-center">Tue</p>
+                <img
+                  class="size-10 mx-auto"
+                  src="./assets/images/icon-rain.webp"
+                  alt="icon-rain"
+                />
+                <div class="flex justify-between">
+                  <small>20°</small>
+                  <small>20°</small>
+                </div>
+              </div>
+              <div class="p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md">
+                <p class="text-center">Tue</p>
+                <img
+                  class="size-10 mx-auto"
+                  src="./assets/images/icon-rain.webp"
+                  alt="icon-rain"
+                />
+                <div class="flex justify-between">
+                  <small>20°</small>
+                  <small>20°</small>
+                </div>
+              </div>
+              <div class="p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md">
+                <p class="text-center">Tue</p>
+                <img
+                  class="size-10 mx-auto"
+                  src="./assets/images/icon-rain.webp"
+                  alt="icon-rain"
+                />
+                <div class="flex justify-between">
+                  <small>20°</small>
+                  <small>20°</small>
+                </div>
+              </div>
+              <div class="p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md">
+                <p class="text-center">Tue</p>
+                <img
+                  class="size-10 mx-auto"
+                  src="./assets/images/icon-rain.webp"
+                  alt="icon-rain"
+                />
+                <div class="flex justify-between">
+                  <small>20°</small>
+                  <small>20°</small>
+                </div>
+              </div>
+              <div class="p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md">
+                <p class="text-center">Tue</p>
+                <img
+                  class="size-10 mx-auto"
+                  src="./assets/images/icon-rain.webp"
+                  alt="icon-rain"
+                />
+                <div class="flex justify-between">
+                  <small>20°</small>
+                  <small>20°</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Hourly forecast section  -->
+        <section class="bg-[var(--Neutral-800)] rounded-xl p-4 space-y-2">
+          <div class="flex justify-between items-center">
+            <p>Hourly forecast</p>
+
+            <!-- Dropdown div  -->
+            <div
+              class="flex gap-1.5 items-center p-2 px-3 bg-[var(--Neutral-700)] rounded-md relative"
+            >
+              <small>Tuesday</small>
+              <img
+                class="size-3"
+                src="./assets/images/icon-dropdown.svg"
+                alt="icon-checkmark"
+              />
+
+              <!-- Weekly Droupdown -->
+              <div
+                class="absolute w-[190px] right-0 top-[100%] mt-2 bg-[var(--Neutral-800)] rounded-md p-1 shadow-md hidden"
+              >
+                <!-- Weekly stats stats -->
+                <p
+                  class="font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                >
+                  Monday
+                </p>
+                <p
+                  class="font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                >
+                  Monday
+                </p>
+                <p
+                  class="font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                >
+                  Monday
+                </p>
+                <p
+                  class="font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                >
+                  Monday
+                </p>
+                <p
+                  class="font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                >
+                  Monday
+                </p>
+
+                <p
+                  class="font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                >
+                  Monday
+                </p>
+                <p
+                  class="font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                >
+                  Monday
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <div
+              class="flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+            >
+              <img
+                class="size-8"
+                src="./assets/images/icon-overcast.webp"
+                alt="icon-overcast"
+              />
+              <p><span>3</span> PM</p>
+              <small class="ml-auto">20°</small>
+            </div>
+            <div
+              class="flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+            >
+              <img
+                class="size-8"
+                src="./assets/images/icon-overcast.webp"
+                alt="icon-overcast"
+              />
+              <p><span>3</span> PM</p>
+              <small class="ml-auto">20°</small>
+            </div>
+            <div
+              class="flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+            >
+              <img
+                class="size-8"
+                src="./assets/images/icon-overcast.webp"
+                alt="icon-overcast"
+              />
+              <p><span>3</span> PM</p>
+              <small class="ml-auto">20°</small>
+            </div>
+            <div
+              class="flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+            >
+              <img
+                class="size-8"
+                src="./assets/images/icon-overcast.webp"
+                alt="icon-overcast"
+              />
+              <p><span>3</span> PM</p>
+              <small class="ml-auto">20°</small>
+            </div>
+            <div
+              class="flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+            >
+              <img
+                class="size-8"
+                src="./assets/images/icon-overcast.webp"
+                alt="icon-overcast"
+              />
+              <p><span>3</span> PM</p>
+              <small class="ml-auto">20°</small>
+            </div>
+            <div
+              class="flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+            >
+              <img
+                class="size-8"
+                src="./assets/images/icon-overcast.webp"
+                alt="icon-overcast"
+              />
+              <p><span>3</span> PM</p>
+              <small class="ml-auto">20°</small>
+            </div>
+            <div
+              class="flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+            >
+              <img
+                class="size-8"
+                src="./assets/images/icon-overcast.webp"
+                alt="icon-overcast"
+              />
+              <p><span>3</span> PM</p>
+              <small class="ml-auto">20°</small>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>

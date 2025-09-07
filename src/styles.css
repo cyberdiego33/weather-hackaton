@@ -1,0 +1,75 @@
+@import "tailwindcss";
+/* @import('tailwindcss').Config */
+:root {
+  --Neutral-900: #03012d;
+  --Neutral-800: #272541;
+  --Neutral-700: #312f4b;
+  --Neutral-600: #3d3b5e;
+  --Neutral-300: #aeaeb7;
+  --Neutral-200: #d5d4d9;
+  --Neutral-0: #ffffff;
+  --Ornge-500: #ff7c0a;
+  --Blue-500: #4455da;
+  --Blue-700: #2d1c9c;
+}
+
+#today-image {
+  background-image: url("../assets/images/bg-today-large.svg");
+  background-size: cover;
+  background-position: center;
+}
+
+#forecast-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+}
+
+/* dm-sans-300 - latin */
+@font-face {
+  font-display: swap;
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 300;
+  src: url("./fonts/dm-sans-v16-latin-300.woff2") format("woff2");
+}
+/* dm-sans-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 400;
+  src: url("./fonts/dm-sans-v16-latin-regular.woff2") format("woff2");
+}
+/* dm-sans-500 - latin */
+@font-face {
+  font-display: swap;
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 500;
+  src: url("./fonts/dm-sans-v16-latin-500.woff2") format("woff2");
+}
+/* dm-sans-600italic - latin */
+@font-face {
+  font-display: swap;
+  font-family: "DM Sans";
+  font-style: italic;
+  font-weight: 600;
+  src: url("./fonts/dm-sans-v16-latin-600italic.woff2") format("woff2");
+}
+/* dm-sans-700 - latin */
+@font-face {
+  font-display: swap;
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 700;
+  src: url("./fonts/dm-sans-v16-latin-700.woff2") format("woff2");
+}
+
+/* bricolage-grotesque-700 - latin */
+@font-face {
+  font-display: swap;
+  font-family: "Bricolage Grotesque";
+  font-style: normal;
+  font-weight: 700;
+  src: url("./fonts/bricolage-grotesque-v8-latin-700.woff2") format("woff2");
+}
