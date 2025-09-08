@@ -1,14 +1,63 @@
-import { renderWeather } from "./views/weatherView.js";
-import { getWeatherData } from "./weatherModel.js";
+// import { renderWeather } from "./views/weatherView.js";
+import { GetWeatherResponse } from "./weatherModel.js";
 
-function greet(name: string): string {
-  return `Hello, ${name}! Your TypeScript is working.`;
-}
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+// APIs
+// const bigDataUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`;
 
-const data = getWeatherData();
-// renderWeather(data);
-console.log(data);
+//////////////////////////////////////////////////////////////////////////////
 
-console.log("Controller ran successfully.");
+// 1. Get users location from browser
+// 2. Load the lat and lang to get more data on country
+// 3. Use city to get weather data
+// 4. display data in UI
+// 5. take input and repeat
 
-console.log(greet("Weather Hacker"));
+// 1. Get current location
+const getCurrentLocation = function (): void {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
+  } else {
+    alert("Couldn't get your location");
+  }
+};
+
+// Error Handler if location is !gotten
+const errorFunction = function (error: GeolocationPositionError): void {
+  alert("Strange Location");
+};
+
+// Success callback if location is gotten
+const successFunction = function (position: GeolocationPosition): void {
+  const { latitude, longitude } = position.coords;
+  console.log(latitude, longitude);
+
+  // Use lat & lon to create api urls
+  // prettier-ignore
+  const forecastUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,windspeed_10m&daily=temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min&timezone=auto
+  `;
+
+  const bigDataUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`;
+
+  // Send Urls to start app
+  starterApp({ forecastUrl, bigDataUrl });
+};
+
+type Urls = {
+  forecastUrl: string;
+  bigDataUrl: string;
+};
+
+const starterApp = async function (urls: Urls): Promise<void> {
+  try {
+    GetWeatherResponse(urls);
+  } catch (error) {
+    console.error(`Error from startApp ${error}`);
+  }
+};
+
+const init = function (): void {
+  getCurrentLocation();
+};
+
+init();

@@ -5,10 +5,13 @@
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.13",
+    "node-fetch": "^3.3.2",
     "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
+    "@types/node": "^24.3.1",
     "concurrently": "^9.2.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   }
 }
