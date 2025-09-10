@@ -28,6 +28,7 @@ export interface WeatherResp {
 
 export type statetype = {
   currentData: {
+    cityName: string | null;
     temperature: number | null;
     currentTime: string | null;
     wind: number | null;
@@ -48,11 +49,12 @@ export type statetype = {
 };
 
 export type currentDataType = {
-  temperature: number | null;
+  cityName: string | null;
   currentTime: string | null;
-  wind: number | null;
+  temperature: number | null;
   feelsLike: string | null;
   humidity: number | null;
+  wind: number | null;
   precipitation: number | null;
 };
 

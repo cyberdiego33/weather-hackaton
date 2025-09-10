@@ -16,7 +16,7 @@
 
     <link rel="stylesheet" href="./dist/output.css" />
 
-    <script type="module" src="./dist/appController.js"></script>
+    <script type="module" src="./dist/appController.js" defer></script>
   </head>
 
   <!-- :root {
@@ -188,8 +188,8 @@
             class="flex justify-between gap-4 py-10 xl:py-15 px-4 rounded-lg"
           >
             <div>
-              <p class="font-semibold text-xl">Berlin, Germany</p>
-              <small class="text-[var(--Neutral-200)]"
+              <p id="CityName" class="font-semibold text-xl">Berlin, Germany</p>
+              <small id="CurrentDate" class="text-[var(--Neutral-200)]"
                 >Tuesday, Aug 5, 2025</small
               >
             </div>
@@ -199,7 +199,7 @@
                 src="./assets/images/icon-sunny.webp"
                 alt="icon-sunny"
               />
-              <p class="font-semibold text-6xl">20°</p>
+              <p id="CurrentTemp" class="font-semibold text-6xl">20°</p>
             </div>
           </div>
 
@@ -207,19 +207,19 @@
           <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-7">
             <div class="bg-[var(--Neutral-600)] p-3 rounded-md">
               <small>Feels like</small>
-              <p class="mt-2 text-xl">18°</p>
+              <p id="CurrentFeels" class="mt-2 text-xl">18°</p>
             </div>
             <div class="bg-[var(--Neutral-600)] p-3 rounded-md">
               <small>Humidity</small>
-              <p class="mt-2 text-xl">48%</p>
+              <p id="CurrentHumidity" class="mt-2 text-xl">48%</p>
             </div>
             <div class="bg-[var(--Neutral-600)] p-3 rounded-md">
               <small>Wind</small>
-              <p class="mt-2 text-xl">14 km/h</p>
+              <p id="CurrentWind" class="mt-2 text-xl">14 km/h</p>
             </div>
             <div class="bg-[var(--Neutral-600)] p-3 rounded-md">
               <small>Precipitation</small>
-              <p class="mt-2 text-xl">0 mm</p>
+              <p id="CurrentPrecipitation" class="mt-2 text-xl">0 mm</p>
             </div>
           </div>
 
@@ -227,88 +227,102 @@
           <div class="mt-9">
             <p>Daily forecast</p>
             <div id="forecast-grid" class="gap-4 mt-4">
-              <div class="p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md">
-                <p class="text-center">Tue</p>
+              <div
+                class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
+              >
+                <p class="text-center">Mon</p>
                 <img
-                  class="size-10 mx-auto"
+                  class="DailyFeelsIcon size-10 mx-auto"
                   src="./assets/images/icon-rain.webp"
                   alt="icon-rain"
                 />
                 <div class="flex justify-between">
-                  <small>20°</small>
-                  <small>20°</small>
+                  <small class="maxTemp">20°</small>
+                  <small class="minTemp">20°</small>
                 </div>
               </div>
-              <div class="p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md">
+              <div
+                class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
+              >
                 <p class="text-center">Tue</p>
                 <img
-                  class="size-10 mx-auto"
+                  class="DailyFeelsIcon size-10 mx-auto"
                   src="./assets/images/icon-rain.webp"
                   alt="icon-rain"
                 />
                 <div class="flex justify-between">
-                  <small>20°</small>
-                  <small>20°</small>
+                  <small class="maxTemp">20°</small>
+                  <small class="minTemp">20°</small>
                 </div>
               </div>
-              <div class="p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md">
-                <p class="text-center">Tue</p>
+              <div
+                class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
+              >
+                <p class="text-center">Wed</p>
                 <img
-                  class="size-10 mx-auto"
+                  class="DailyFeelsIcon size-10 mx-auto"
                   src="./assets/images/icon-rain.webp"
                   alt="icon-rain"
                 />
                 <div class="flex justify-between">
-                  <small>20°</small>
-                  <small>20°</small>
+                  <small class="maxTemp">20°</small>
+                  <small class="minTemp">20°</small>
                 </div>
               </div>
-              <div class="p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md">
-                <p class="text-center">Tue</p>
+              <div
+                class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
+              >
+                <p class="text-center">Thur</p>
                 <img
-                  class="size-10 mx-auto"
+                  class="DailyFeelsIcon size-10 mx-auto"
                   src="./assets/images/icon-rain.webp"
                   alt="icon-rain"
                 />
                 <div class="flex justify-between">
-                  <small>20°</small>
-                  <small>20°</small>
+                  <small class="maxTemp">20°</small>
+                  <small class="minTemp">20°</small>
                 </div>
               </div>
-              <div class="p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md">
-                <p class="text-center">Tue</p>
+              <div
+                class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
+              >
+                <p class="text-center">Fri</p>
                 <img
-                  class="size-10 mx-auto"
+                  class="DailyFeelsIcon size-10 mx-auto"
                   src="./assets/images/icon-rain.webp"
                   alt="icon-rain"
                 />
                 <div class="flex justify-between">
-                  <small>20°</small>
-                  <small>20°</small>
+                  <small class="maxTemp">20°</small>
+                  <small class="minTemp">20°</small>
                 </div>
               </div>
-              <div class="p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md">
-                <p class="text-center">Tue</p>
+              <div
+                class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
+              >
+                <p class="text-center">Sat</p>
                 <img
-                  class="size-10 mx-auto"
+                  class="DailyFeelsIcon size-10 mx-auto"
                   src="./assets/images/icon-rain.webp"
                   alt="icon-rain"
                 />
                 <div class="flex justify-between">
-                  <small>20°</small>
-                  <small>20°</small>
+                  <small class="maxTemp">20°</small>
+                  <small class="minTemp">20°</small>
                 </div>
               </div>
-              <div class="p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md">
-                <p class="text-center">Tue</p>
+              <div
+                class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
+              >
+                <p class="text-center">Sun</p>
                 <img
-                  class="size-10 mx-auto"
+                  class="DailyFeelsIcon size-10 mx-auto"
                   src="./assets/images/icon-rain.webp"
                   alt="icon-rain"
                 />
                 <div class="flex justify-between">
-                  <small>20°</small>
-                  <small>20°</small>
+                  <small class="maxTemp">20°</small>
+                  <small class="minTemp">20°</small>
                 </div>
               </div>
             </div>
@@ -337,40 +351,40 @@
               >
                 <!-- Weekly stats stats -->
                 <p
-                  class="font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                  class="DropdownDate font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
                 >
                   Monday
                 </p>
                 <p
-                  class="font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                  class="DropdownDate font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
                 >
-                  Monday
+                  Tuesday
                 </p>
                 <p
-                  class="font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                  class="DropdownDate font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
                 >
-                  Monday
+                  Wednessday
                 </p>
                 <p
-                  class="font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                  class="DropdownDate font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
                 >
-                  Monday
+                  Thursday
                 </p>
                 <p
-                  class="font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                  class="DropdownDate font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
                 >
-                  Monday
+                  Friday
                 </p>
 
                 <p
-                  class="font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                  class="DropdownDate font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
                 >
-                  Monday
+                  Saturday
                 </p>
                 <p
-                  class="font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                  class="DropdownDate font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
                 >
-                  Monday
+                  Sunday
                 </p>
               </div>
             </div>
@@ -378,81 +392,81 @@
 
           <div class="space-y-3">
             <div
-              class="flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
             >
               <img
-                class="size-8"
+                class="hourlyIcon size-8"
                 src="./assets/images/icon-overcast.webp"
                 alt="icon-overcast"
               />
-              <p><span>3</span> PM</p>
-              <small class="ml-auto">20°</small>
+              <p><span class="hour">3 PM</span></p>
+              <small class="ml-auto"><span class="temp">20</span>°</small>
             </div>
             <div
-              class="flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
             >
               <img
-                class="size-8"
+                class="hourlyIcon size-8"
                 src="./assets/images/icon-overcast.webp"
                 alt="icon-overcast"
               />
-              <p><span>3</span> PM</p>
-              <small class="ml-auto">20°</small>
+              <p><span class="hour">4 PM</span></p>
+              <small class="ml-auto"><span class="temp">20</span>°</small>
             </div>
             <div
-              class="flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
             >
               <img
-                class="size-8"
+                class="hourlyIcon size-8"
                 src="./assets/images/icon-overcast.webp"
                 alt="icon-overcast"
               />
-              <p><span>3</span> PM</p>
-              <small class="ml-auto">20°</small>
+              <p><span class="hour">5 PM</span></p>
+              <small class="ml-auto"><span class="temp">20</span>°</small>
             </div>
             <div
-              class="flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
             >
               <img
-                class="size-8"
+                class="hourlyIcon size-8"
                 src="./assets/images/icon-overcast.webp"
                 alt="icon-overcast"
               />
-              <p><span>3</span> PM</p>
-              <small class="ml-auto">20°</small>
+              <p><span class="hour">6 PM</span></p>
+              <small class="ml-auto"><span class="temp">20</span>°</small>
             </div>
             <div
-              class="flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
             >
               <img
-                class="size-8"
+                class="hourlyIcon size-8"
                 src="./assets/images/icon-overcast.webp"
                 alt="icon-overcast"
               />
-              <p><span>3</span> PM</p>
-              <small class="ml-auto">20°</small>
+              <p><span class="hour">7 PM</span></p>
+              <small class="ml-auto"><span class="temp">20</span>°</small>
             </div>
             <div
-              class="flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
             >
               <img
-                class="size-8"
+                class="hourlyIcon size-8"
                 src="./assets/images/icon-overcast.webp"
                 alt="icon-overcast"
               />
-              <p><span>3</span> PM</p>
-              <small class="ml-auto">20°</small>
+              <p><span class="hour">8 PM</span></p>
+              <small class="ml-auto"><span class="temp">20</span>°</small>
             </div>
             <div
-              class="flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
             >
               <img
-                class="size-8"
+                class="hourlyIcon size-8"
                 src="./assets/images/icon-overcast.webp"
                 alt="icon-overcast"
               />
-              <p><span>3</span> PM</p>
-              <small class="ml-auto">20°</small>
+              <p><span class="hour">3 PM</span></p>
+              <small class="ml-auto"><span class="temp">20</span>°</small>
             </div>
           </div>
         </section>

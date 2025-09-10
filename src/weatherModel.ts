@@ -14,13 +14,26 @@ import {
 // 1. Current data
 // 2. Daily forecast
 // 3. Hourly forecast
+
+// (
+//       "Current Weather Selected",
+//       CityName,
+//       CurrentDate,
+//       CurrentTemp,
+//       CurrentFeels,
+//       CurrentHumidity,
+//       CurrentWind,
+//       CurrentPrecipitation
+//     );
+
 const AppState: statetype = {
   currentData: {
-    temperature: null,
+    cityName: null,
     currentTime: null,
-    wind: null,
+    temperature: null,
     feelsLike: null,
     humidity: null,
+    wind: null,
     precipitation: null,
   },
   DailyData: {
@@ -79,7 +92,10 @@ function getFeelsLikeCondition(
 }
 
 // for Current Data = Getting temperature, currentTime, feels_like, humidity, wind, precipitation
-const getCurrentData = function (data: WeatherResp): currentDataType {
+const getCurrentData = function (
+  data: WeatherResp,
+  cityName: string
+): currentDataType {
   const {
     temperature,
     time: currentTime,
@@ -101,11 +117,12 @@ const getCurrentData = function (data: WeatherResp): currentDataType {
   );
 
   return {
-    temperature,
+    cityName,
     currentTime,
-    wind,
+    temperature,
     feelsLike,
     humidity,
+    wind,
     precipitation,
   };
 };
@@ -138,17 +155,22 @@ const HourlyForecast = function (data: WeatherResp): HourlyForecastType {
   };
 };
 
-const DestructureWeather = function (data: WeatherResp) {
+const DestructureWeather = function (
+  data: WeatherResp,
+  cityName: string
+): statetype {
   console.log(data);
   // Adding Data to AppState for the current weather data
-  AppState.currentData = getCurrentData(data);
+  AppState.currentData = getCurrentData(data, cityName);
 
   // Adding Data to AppState for the daily min/max temp
   AppState.DailyData = DailyForecast(data);
-  console.log(AppState);
 
   // Getting hourly forecast
   AppState.HourlyData = HourlyForecast(data);
+  console.log(AppState);
+
+  return AppState;
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -156,19 +178,20 @@ const DestructureWeather = function (data: WeatherResp) {
 export const GetWeatherResponse = async function ({
   forecastUrl,
   bigDataUrl,
-}: Urls) {
+}: Urls): Promise<statetype> {
   try {
     // getting city name
-    const getCityCountry = await GetCountryBigData(bigDataUrl);
-    console.log(getCityCountry);
+    const CityCountry = await GetCountryBigData(bigDataUrl);
+    console.log(CityCountry);
 
     // getting weather
+    // console.log(forecastUrl);
     const getWeatherObj = await OpenMeteoFunc(forecastUrl);
 
     // sending for destructuring
-    DestructureWeather(getWeatherObj);
+    return DestructureWeather(getWeatherObj, CityCountry);
   } catch (error) {
-    return new Error(`Error from getweather: ${error}`);
+    throw new Error(`Error from getweather: ${error}`);
   }
 };
 

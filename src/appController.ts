@@ -1,5 +1,8 @@
 // import { renderWeather } from "./views/weatherView.js";
 import { GetWeatherResponse } from "./weatherModel.js";
+import { DisplayCurrentData } from "./views/CurrentWView.js";
+import { DisplayDailyForcast } from "./views/DailyView.js";
+import { DisplayHourlyData } from "./views/HourlyView.js";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 // APIs
@@ -50,7 +53,17 @@ type Urls = {
 
 const starterApp = async function (urls: Urls): Promise<void> {
   try {
-    GetWeatherResponse(urls);
+    // Calling GetWeatherFun to return state data
+    const AppState = await GetWeatherResponse(urls);
+
+    // Displaying the current data
+    DisplayCurrentData(AppState.currentData);
+
+    // Displaying the daily forecast
+    DisplayDailyForcast(AppState.DailyData);
+
+    // Displaying the Hourly data
+    DisplayHourlyData(AppState.HourlyData);
   } catch (error) {
     console.error(`Error from startApp ${error}`);
   }
