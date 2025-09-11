@@ -4,16 +4,13 @@ import { currentDataType } from "../types.js";
 export const DisplayCurrentData = function (
   currentAppData: currentDataType
 ): void {
-  const CityName = document.querySelector("#CityName")?.textContent;
-  const CurrentDate = document.querySelector("#CurrentDate")?.textContent;
-  const CurrentTemp = document.querySelector("#CurrentTemp")?.textContent;
-  const CurrentFeels = document.querySelector("#CurrentFeels")?.textContent;
-  const CurrentHumidity =
-    document.querySelector("#CurrentHumidity")?.textContent;
-  const CurrentWind = document.querySelector("#CurrentWind")?.textContent;
-  const CurrentPrecipitation = document.querySelector(
-    "#CurrentPrecipitation"
-  )?.textContent;
+  const CityName = document.querySelector("#CityName");
+  const CurrentDate = document.querySelector("#CurrentDate");
+  const CurrentTemp = document.querySelector("#CurrentTemp");
+  const CurrentFeels = document.querySelector("#CurrentFeels");
+  const CurrentHumidity = document.querySelector("#CurrentHumidity");
+  const CurrentWind = document.querySelector("#CurrentWind")!;
+  const CurrentPrecipitation = document.querySelector("#CurrentPrecipitation");
 
   const elementsArray = [
     CityName,
@@ -24,5 +21,11 @@ export const DisplayCurrentData = function (
     CurrentWind,
     CurrentPrecipitation,
   ];
-  // console.log(Object.values(currentAppData));
+
+  elementsArray.forEach((el, i) => {
+    if (el) {
+      const value = Object.values(currentAppData)[i];
+      el.textContent = value !== null ? String(value) : "";
+    }
+  });
 };

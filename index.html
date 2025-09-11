@@ -199,7 +199,9 @@
                 src="./assets/images/icon-sunny.webp"
                 alt="icon-sunny"
               />
-              <p id="CurrentTemp" class="font-semibold text-6xl">20°</p>
+              <p class="font-semibold text-6xl">
+                <span id="CurrentTemp">20</span>°
+              </p>
             </div>
           </div>
 
@@ -207,19 +209,21 @@
           <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-7">
             <div class="bg-[var(--Neutral-600)] p-3 rounded-md">
               <small>Feels like</small>
-              <p id="CurrentFeels" class="mt-2 text-xl">18°</p>
+              <p class="mt-2 text-xl"><span id="CurrentFeels">18</span>°</p>
             </div>
             <div class="bg-[var(--Neutral-600)] p-3 rounded-md">
               <small>Humidity</small>
-              <p id="CurrentHumidity" class="mt-2 text-xl">48%</p>
+              <p class="mt-2 text-xl"><span id="CurrentHumidity">48</span>%</p>
             </div>
             <div class="bg-[var(--Neutral-600)] p-3 rounded-md">
               <small>Wind</small>
-              <p id="CurrentWind" class="mt-2 text-xl">14 km/h</p>
+              <p class="mt-2 text-xl"><span id="CurrentWind">14 </span>km/h</p>
             </div>
             <div class="bg-[var(--Neutral-600)] p-3 rounded-md">
               <small>Precipitation</small>
-              <p id="CurrentPrecipitation" class="mt-2 text-xl">0 mm</p>
+              <p class="mt-2 text-xl">
+                <span id="CurrentPrecipitation">0 </span>mm
+              </p>
             </div>
           </div>
 
@@ -230,99 +234,99 @@
               <div
                 class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
               >
-                <p class="text-center">Mon</p>
+                <p class="weekDay text-center">Mon</p>
                 <img
                   class="DailyFeelsIcon size-10 mx-auto"
                   src="./assets/images/icon-rain.webp"
                   alt="icon-rain"
                 />
                 <div class="flex justify-between">
-                  <small class="maxTemp">20°</small>
-                  <small class="minTemp">20°</small>
+                  <small><span class="maxTemp">20</span>°</small>
+                  <small><span class="minTemp">20</span>°</small>
                 </div>
               </div>
               <div
                 class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
               >
-                <p class="text-center">Tue</p>
+                <p class="weekDay text-center">Tue</p>
                 <img
                   class="DailyFeelsIcon size-10 mx-auto"
                   src="./assets/images/icon-rain.webp"
                   alt="icon-rain"
                 />
                 <div class="flex justify-between">
-                  <small class="maxTemp">20°</small>
-                  <small class="minTemp">20°</small>
+                  <small><span class="maxTemp">20</span>°</small>
+                  <small><span class="minTemp">20</span>°</small>
                 </div>
               </div>
               <div
                 class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
               >
-                <p class="text-center">Wed</p>
+                <p class="weekDay text-center">Wed</p>
                 <img
                   class="DailyFeelsIcon size-10 mx-auto"
                   src="./assets/images/icon-rain.webp"
                   alt="icon-rain"
                 />
                 <div class="flex justify-between">
-                  <small class="maxTemp">20°</small>
-                  <small class="minTemp">20°</small>
+                  <small><span class="maxTemp">20</span>°</small>
+                  <small><span class="minTemp">20</span>°</small>
                 </div>
               </div>
               <div
                 class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
               >
-                <p class="text-center">Thur</p>
+                <p class="weekDay text-center">Thur</p>
                 <img
                   class="DailyFeelsIcon size-10 mx-auto"
                   src="./assets/images/icon-rain.webp"
                   alt="icon-rain"
                 />
                 <div class="flex justify-between">
-                  <small class="maxTemp">20°</small>
-                  <small class="minTemp">20°</small>
+                  <small><span class="maxTemp">20</span>°</small>
+                  <small><span class="minTemp">20</span>°</small>
                 </div>
               </div>
               <div
                 class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
               >
-                <p class="text-center">Fri</p>
+                <p class="weekDay text-center">Fri</p>
                 <img
                   class="DailyFeelsIcon size-10 mx-auto"
                   src="./assets/images/icon-rain.webp"
                   alt="icon-rain"
                 />
                 <div class="flex justify-between">
-                  <small class="maxTemp">20°</small>
-                  <small class="minTemp">20°</small>
+                  <small><span class="maxTemp">20</span>°</small>
+                  <small><span class="minTemp">20</span>°</small>
                 </div>
               </div>
               <div
                 class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
               >
-                <p class="text-center">Sat</p>
+                <p class="weekDay text-center">Sat</p>
                 <img
                   class="DailyFeelsIcon size-10 mx-auto"
                   src="./assets/images/icon-rain.webp"
                   alt="icon-rain"
                 />
                 <div class="flex justify-between">
-                  <small class="maxTemp">20°</small>
-                  <small class="minTemp">20°</small>
+                  <small><span class="maxTemp">20</span>°</small>
+                  <small><span class="minTemp">20</span>°</small>
                 </div>
               </div>
               <div
                 class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
               >
-                <p class="text-center">Sun</p>
+                <p class="weekDay text-center">Sun</p>
                 <img
                   class="DailyFeelsIcon size-10 mx-auto"
                   src="./assets/images/icon-rain.webp"
                   alt="icon-rain"
                 />
                 <div class="flex justify-between">
-                  <small class="maxTemp">20°</small>
-                  <small class="minTemp">20°</small>
+                  <small><span class="maxTemp">20</span>°</small>
+                  <small><span class="minTemp">20</span>°</small>
                 </div>
               </div>
             </div>
@@ -336,7 +340,8 @@
 
             <!-- Dropdown div  -->
             <div
-              class="flex gap-1.5 items-center p-2 px-3 bg-[var(--Neutral-700)] rounded-md relative"
+              id="hourdropdown"
+              class="flex gap-1.5 items-center p-2 px-3 bg-[var(--Neutral-700)] rounded-md relative cursor-pointer"
             >
               <small>Tuesday</small>
               <img
@@ -347,6 +352,7 @@
 
               <!-- Weekly Droupdown -->
               <div
+                id="WeeksHolder"
                 class="absolute w-[190px] right-0 top-[100%] mt-2 bg-[var(--Neutral-800)] rounded-md p-1 shadow-md hidden"
               >
                 <!-- Weekly stats stats -->
