@@ -51,17 +51,27 @@ export type DailyHoursDataType = Record<WeekdayType, DailyHours>;
 export type statetype = {
   currentData: {
     cityName: string | null;
-    temperature: number | null;
     currentTime: string | null;
-    wind: number | null;
-    feelsLike: number | null;
-    humidity: number | null;
-    precipitation: number | null;
+    metricData: {
+      temperature: number | null;
+      feelsLike: number | null;
+      humidity: number | null;
+      wind: number | null;
+      precipitation: number | null;
+    };
+    imperialData: {
+      temperature: number | null;
+      feelsLike: number | null;
+      humidity: number | null;
+      wind: number | null;
+      precipitation: number | null;
+    };
   };
   DailyData: {
     dateArray: string[] | null;
     maxTemp: number[];
     minTemp: number[];
+    weekDays: string[];
   };
   HourlyData: {
     timeArray: string[];
@@ -69,48 +79,24 @@ export type statetype = {
     tempArray: number[];
   };
   DailyHoursData: DailyHoursDataType;
-  /* {
-    Monday: {
-      timeLgArray: string[];
-      feelslgArray: number[];
-      tempLgArray: number[];
-    };
-    Tuesday: {
-      timeLgArray: string[];
-      feelslgArray: number[];
-      tempLgArray: number[];
-    };
-    Wednesday: {
-      timeLgArray: string[];
-      feelslgArray: number[];
-      tempLgArray: number[];
-    };
-    Thursday: {
-      timeLgArray: string[];
-      feelslgArray: number[];
-      tempLgArray: number[];
-    };
-    Friday: {
-      timeLgArray: string[];
-      feelslgArray: number[];
-      tempLgArray: number[];
-    };
-    Saturday: {
-      timeLgArray: string[];
-      feelslgArray: number[];
-      tempLgArray: number[];
-    };
-    Sunday: {
-      timeLgArray: string[];
-      feelslgArray: number[];
-      tempLgArray: number[];
-    }; 
-  };*/
 };
 
 export type currentDataType = {
   cityName: string | null;
   currentTime: string | null;
+  metricData: MetricsDataType;
+  imperialData: imperialDataType;
+};
+
+export type MetricsDataType = {
+  temperature: number | null;
+  feelsLike: number | null;
+  humidity: number | null;
+  wind: number | null;
+  precipitation: number | null;
+};
+
+export type imperialDataType = {
   temperature: number | null;
   feelsLike: number | null;
   humidity: number | null;
@@ -122,6 +108,7 @@ export type DailyForecastType = {
   dateArray: string[] | null;
   maxTemp: number[];
   minTemp: number[];
+  weekDays: string[];
 };
 
 export type HourlyForecastType = {

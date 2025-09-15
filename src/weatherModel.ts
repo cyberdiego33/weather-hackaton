@@ -4,7 +4,8 @@ import {
   statetype,
   Urls,
   DailyForecastType,
-  currentDataType,
+  MetricsDataType,
+  imperialDataType,
   HourlyForecastType,
   WeekdayType,
   DailyHoursDataType,
@@ -32,16 +33,26 @@ const AppState: statetype = {
   currentData: {
     cityName: null,
     currentTime: null,
-    temperature: null,
-    feelsLike: null,
-    humidity: null,
-    wind: null,
-    precipitation: null,
+    metricData: {
+      temperature: null,
+      feelsLike: null,
+      humidity: null,
+      wind: null,
+      precipitation: null,
+    },
+    imperialData: {
+      temperature: null,
+      feelsLike: null,
+      humidity: null,
+      wind: null,
+      precipitation: null,
+    },
   },
   DailyData: {
     dateArray: null,
     maxTemp: [],
     minTemp: [],
+    weekDays: [],
   },
   HourlyData: {
     timeArray: [],
@@ -94,11 +105,11 @@ const AppState: statetype = {
 //////////////////////////////////////////////////////////////////////////////
 // Helper Functions
 
-function getFormattedDate(dateValue: string, optionObj: {}) {
+function getFormattedDate(dateValue: string, language: string, optionObj: {}) {
   const data = new Date(dateValue);
   const options: Intl.DateTimeFormatOptions = optionObj;
 
-  return new Intl.DateTimeFormat("en-US", options).format(data);
+  return new Intl.DateTimeFormat(language, options).format(data);
 }
 
 const GetTheWeekday = function (dateString: string): WeekdayType {
@@ -134,27 +145,13 @@ function getFeelsLikeCondition(
   return "Clear Sky";
 }
 
-// for Current Data = Getting temperature, currentTime, feels_like, humidity, wind, precipitation
-const getCurrentData = function (
-  data: WeatherResp,
-  cityName: string
-): currentDataType {
-  const {
-    temperature,
-    time,
-    windspeed: wind,
-    weathercode: feelsLike,
-  } = data.current_weather;
+// Abstractions
 
-  const index = data.hourly.time.indexOf(time.slice(0, -2) + "00");
-  // console.log(index);
-
-  const apparentTemp = data.hourly.apparent_temperature[index] ?? null;
-  const humidity = data.hourly.relative_humidity_2m[index] ?? null;
-  const precipitation = data.hourly.precipitation[index] ?? null;
+const SetCurrentData = function (data: WeatherResp, cityName: string): void {
+  const { time } = data.current_weather;
 
   // getFormattedDate(time)
-  const currentTime = getFormattedDate(time, {
+  const currentTime = getFormattedDate(time, navigator.language, {
     weekday: "long",
     year: "numeric",
     month: "long",
@@ -162,9 +159,40 @@ const getCurrentData = function (
   });
   // console.log(currentTime);
 
+  AppState.currentData.cityName = cityName;
+  AppState.currentData.currentTime = currentTime;
+};
+
+// for Current Data = Getting temperature, feels_like, humidity, wind, precipitation
+const getMetricsData = function (data: WeatherResp): MetricsDataType {
+  const { temperature, time, windspeed: wind } = data.current_weather;
+
+  const index = data.hourly.time.indexOf(time.slice(0, -2) + "00");
+
+  const feelsLike = data.hourly.apparent_temperature[index] ?? null;
+  const humidity = data.hourly.relative_humidity_2m[index] ?? null;
+  const precipitation = data.hourly.precipitation[index] ?? null;
+
   return {
-    cityName,
-    currentTime,
+    temperature,
+    feelsLike,
+    humidity,
+    wind,
+    precipitation,
+  };
+};
+
+// Taking Metrics and turning it into Imperials
+const getImperialData = function (data: MetricsDataType): imperialDataType {
+  const temperature =
+    data.temperature !== null ? (data.temperature * 9) / 5 + 32 : null;
+  const feelsLike =
+    data.feelsLike !== null ? (data.feelsLike * 9) / 5 + 32 : null;
+  const humidity = data.humidity; // stays the same
+  const wind = data.wind !== null ? data.wind * 2.237 : null;
+  const precipitation =
+    data.precipitation !== null ? data.precipitation / 25.4 : null;
+  return {
     temperature,
     feelsLike,
     humidity,
@@ -182,10 +210,14 @@ const DailyForecast = function (data: WeatherResp): DailyForecastType {
   } = data.daily;
 
   const dateArray = time.map((el) =>
-    getFormattedDate(el, { weekday: "short" })
+    getFormattedDate(el, "en-US", { weekday: "short" })
+  );
+
+  const weekDays = time.map((el) =>
+    getFormattedDate(el, "en-US", { weekday: "long" })
   );
   // console.log("Daily forecast data", dateArray, maxTemp, minTemp);
-  return { dateArray, maxTemp, minTemp };
+  return { dateArray, maxTemp, minTemp, weekDays };
 };
 
 // for destructuring the large hourly data into DailyHoursData
@@ -211,15 +243,38 @@ const SelectDailyData = function (data: WeatherResp) {
   // console.log(timeArray, feelsiconArray, tempArray);
 };
 
-const SliceHourlyData = function (data: DailyHoursDataType) {
-  const weekdaysKeyArray = Object.keys(data);
+const SliceHourlyData = function (time: string, data: DailyHoursDataType) {
+  const weekdaysKeyArray = Object.keys(data) as (keyof DailyHoursDataType)[];
 
-  // slice each weekday down to 8 from the current hour
-  const now = new Date();
-  const currentHourISO = now.toISOString().slice(0, 13) + ":00";
+  // Taking only the date - hour and adding the mins "00"
+  const currentHourISO = new Date(time).toISOString().slice(11, 13) + ":00";
   // e.g. "2025-09-11T15:00"
 
-  weekdaysKeyArray.forEach((el, i) => {});
+  // Loop through the weekdays
+  weekdaysKeyArray.forEach((day) => {
+    const dates = data[day].timeLgArray; // Using the Monday.Time array
+
+    // to compare currentIso and find index
+    let indexStart = dates.findIndex((d) => d.endsWith(currentHourISO));
+    let indexEnd = indexStart + 7;
+
+    if (indexEnd > dates.length) {
+      indexStart = dates.length - 7; // shift back so you still get 8 items
+      indexEnd = dates.length;
+    }
+
+    // Slicing them by 7
+    let slicedDate = data[day].timeLgArray.slice(indexStart, indexEnd);
+    let slicedFeels = data[day].feelslgArray.slice(indexStart, indexEnd);
+    let slicedTemps = data[day].tempLgArray.slice(indexStart, indexEnd);
+
+    // Updating the state
+    AppState.DailyHoursData[day].timeLgArray = slicedDate;
+    AppState.DailyHoursData[day].feelslgArray = slicedFeels;
+    AppState.DailyHoursData[day].tempLgArray = slicedTemps;
+
+    // console.log("Slice hours", currentHourISO, indexStart, indexEnd);
+  });
 };
 
 // for Hourly forecast = hours Array(8), temparature Array(8) and apparent_temp Array(8)
@@ -245,7 +300,14 @@ const DestructureWeather = function (
 ): statetype {
   console.log(data);
   // Adding Data to AppState for the current weather data
-  AppState.currentData = getCurrentData(data, cityName);
+  SetCurrentData(data, cityName);
+
+  // Getting the default Metrics Data
+  const metricData = getMetricsData(data);
+  AppState.currentData.metricData = metricData;
+
+  // Using Metrics data to get imperial
+  AppState.currentData.imperialData = getImperialData(metricData);
 
   // Adding Data to AppState for the daily min/max temp
   AppState.DailyData = DailyForecast(data);
@@ -256,7 +318,7 @@ const DestructureWeather = function (
   // to Filter Data according to dates
   SelectDailyData(data);
 
-  SliceHourlyData(AppState.DailyHoursData);
+  SliceHourlyData(data.current_weather.time, AppState.DailyHoursData);
   console.log(AppState);
 
   return AppState;
@@ -274,7 +336,6 @@ export const GetWeatherResponse = async function ({
     console.log(CityCountry);
 
     // getting weather
-    // console.log(forecastUrl);
     const getWeatherObj = await OpenMeteoFunc(forecastUrl);
 
     // sending for destructuring
@@ -307,8 +368,12 @@ const GetCountryBigData = async function (url: string): Promise<cityCountry> {
       throw new Error("Failed to fetch response");
     }
 
-    const { city, countryName } = await response.json();
-    const cityCountry: string = `${city}, ${countryName}`;
+    const data = await response.json();
+    // console.log(data);
+    const { city, countryName, countryCode } = data;
+    let cityCountry: string = `${city}, ${countryName}`;
+
+    if (cityCountry.length > 20) cityCountry = `${city}, ${countryCode}`;
 
     return cityCountry;
   } catch (error) {

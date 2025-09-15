@@ -43,7 +43,8 @@
 
       <!-- Unit  -->
       <div
-        class="flex gap-1.5 items-center p-2 px-3 bg-[var(--Neutral-700)] rounded-md relative"
+        id="unitsDropDown"
+        class="flex gap-1.5 items-center p-2 px-3 bg-[var(--Neutral-700)] rounded-md relative cursor-pointer"
       >
         <img
           class="size-3"
@@ -59,25 +60,28 @@
 
         <!-- Unit dropdown -->
         <div
+          id="UnitOptions"
           class="absolute w-[190px] right-0 top-[100%] mt-2 bg-[var(--Neutral-800)] rounded-md p-1 z-10 hidden"
         >
           <!-- Switch to imperial  -->
           <div
+            id="ImperialDiv"
             class="p-1 flex justify-between items-center hover:bg-[var(--Neutral-700)] rounded-md"
           >
             <p class="font-semibold text-sm text-nowrap">Switch to imperial</p>
             <img
-              class="size-3"
+              class="size-3 hidden"
               src="./assets/images/icon-checkmark.svg"
               alt=""
             />
           </div>
 
           <!-- Choose Temperature  -->
-          <div class="border-b">
+          <div id="TemperatureDiv" class="border-b">
             <small class="ml-1">Temperature</small>
             <div
-              class="p-1 flex justify-between items-center hover:bg-[var(--Neutral-700)] rounded-md"
+              data-option="metric"
+              class="option p-1 flex justify-between items-center bg-[var(--Neutral-700)] hover:bg-[var(--Neutral-700)] rounded-md"
             >
               <p class="font-semibold text-sm text-nowrap">Celsius(20°)</p>
               <img
@@ -87,11 +91,12 @@
               />
             </div>
             <div
-              class="p-1 flex justify-between items-center hover:bg-[var(--Neutral-700)] rounded-md"
+              data-option="imperial"
+              class="option p-1 flex justify-between items-center hover:bg-[var(--Neutral-700)] rounded-md"
             >
               <p class="font-semibold text-sm text-nowrap">Fahrenheit(°F)</p>
               <img
-                class="size-3"
+                class="size-3 hidden"
                 src="./assets/images/icon-checkmark.svg"
                 alt=""
               />
@@ -99,10 +104,11 @@
           </div>
 
           <!-- Choose Wind Speed  -->
-          <div class="border-b">
+          <div id="WindspeedDiv" class="border-b">
             <small class="ml-1">Wind speed</small>
             <div
-              class="p-1 flex justify-between items-center hover:bg-[var(--Neutral-700)] rounded-md"
+              data-option="metric"
+              class="option p-1 flex justify-between items-center bg-[var(--Neutral-700)] hover:bg-[var(--Neutral-700)] rounded-md"
             >
               <p class="font-semibold text-sm text-nowrap">km/h</p>
               <img
@@ -112,11 +118,12 @@
               />
             </div>
             <div
-              class="p-1 flex justify-between items-center hover:bg-[var(--Neutral-700)] rounded-md"
+              data-option="imperial"
+              class="option p-1 flex justify-between items-center hover:bg-[var(--Neutral-700)] rounded-md"
             >
               <p class="font-semibold text-sm text-nowrap">mph</p>
               <img
-                class="size-3"
+                class="size-3 hidden"
                 src="./assets/images/icon-checkmark.svg"
                 alt=""
               />
@@ -124,10 +131,11 @@
           </div>
 
           <!-- Choose Precipitation  -->
-          <div class="border-b">
+          <div id="PrecipitationDiv">
             <small class="ml-1">Precipitation</small>
             <div
-              class="p-1 flex justify-between items-center hover:bg-[var(--Neutral-700)] rounded-md"
+              data-option="metric"
+              class="option p-1 flex justify-between items-center bg-[var(--Neutral-700)] hover:bg-[var(--Neutral-700)] rounded-md"
             >
               <p class="font-semibold text-sm text-nowrap">Millimeter(mm)</p>
               <img
@@ -137,11 +145,12 @@
               />
             </div>
             <div
-              class="p-1 flex justify-between items-center hover:bg-[var(--Neutral-700)] rounded-md"
+              data-option="imperial"
+              class="option p-1 flex justify-between items-center hover:bg-[var(--Neutral-700)] rounded-md"
             >
-              <p class="font-semibold text-sm text-nowrap">Fahrenheit(°F)</p>
+              <p class="font-semibold text-sm text-nowrap">inches(in)</p>
               <img
-                class="size-3"
+                class="size-3 hidden"
                 src="./assets/images/icon-checkmark.svg"
                 alt=""
               />
@@ -173,6 +182,7 @@
             type="text"
         /></label>
         <button
+          type="submit"
           class="px-4 py-1 text-sm font-semibold bg-[var(--Blue-500)] rounded-md"
         >
           Search
@@ -205,25 +215,42 @@
             </div>
           </div>
 
-          <!-- Weather Stats  -->
+          <!-- Weather Stats -->
           <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-7">
-            <div class="bg-[var(--Neutral-600)] p-3 rounded-md">
-              <small>Feels like</small>
-              <p class="mt-2 text-xl"><span id="CurrentFeels">18</span>°</p>
+            <div class="bg-[var(--Neutral-600)] h-[84px] p-3 rounded-md">
+              <div id="FeelsBox" class="">
+                <small>Feels like</small>
+                <p class="mt-2 text-xl"><span id="CurrentFeels">--</span>°</p>
+              </div>
             </div>
-            <div class="bg-[var(--Neutral-600)] p-3 rounded-md">
-              <small>Humidity</small>
-              <p class="mt-2 text-xl"><span id="CurrentHumidity">48</span>%</p>
+
+            <div class="bg-[var(--Neutral-600)] h-[84px] p-3 rounded-md">
+              <div id="FeelsBox" class="">
+                <small>Humidity</small>
+                <p class="mt-2 text-xl">
+                  <span id="CurrentHumidity">--</span>%
+                </p>
+              </div>
             </div>
-            <div class="bg-[var(--Neutral-600)] p-3 rounded-md">
-              <small>Wind</small>
-              <p class="mt-2 text-xl"><span id="CurrentWind">14 </span>km/h</p>
+
+            <div class="bg-[var(--Neutral-600)] h-[84px] p-3 rounded-md">
+              <div id="FeelsBox" class="">
+                <small>Wind</small>
+                <p class="mt-2 text-xl">
+                  <span id="CurrentWind">--</span>
+                  <span id="CurrentWindUnit">km/h</span>
+                </p>
+              </div>
             </div>
-            <div class="bg-[var(--Neutral-600)] p-3 rounded-md">
-              <small>Precipitation</small>
-              <p class="mt-2 text-xl">
-                <span id="CurrentPrecipitation">0 </span>mm
-              </p>
+
+            <div class="bg-[var(--Neutral-600)] h-[84px] p-3 rounded-md">
+              <div id="FeelsBox" class="">
+                <small>Precipitation</small>
+                <p class="mt-2 text-xl">
+                  <span id="CurrentPrecipitation">--</span>
+                  <span id="CurrentPrecipitationUnit">mm</span>
+                </p>
+              </div>
             </div>
           </div>
 
@@ -334,16 +361,16 @@
         </section>
 
         <!-- Hourly forecast section  -->
-        <section class="bg-[var(--Neutral-800)] rounded-xl p-4 space-y-2">
+        <section class="bg-[var(--Neutral-700)] rounded-xl p-4 space-y-2">
           <div class="flex justify-between items-center">
             <p>Hourly forecast</p>
 
             <!-- Dropdown div  -->
             <div
               id="hourdropdown"
-              class="flex gap-1.5 items-center p-2 px-3 bg-[var(--Neutral-700)] rounded-md relative cursor-pointer"
+              class="flex gap-1.5 items-center p-2 px-3 bg-[var(--Neutral-600)] rounded-md relative cursor-pointer"
             >
-              <small>Tuesday</small>
+              <small class="presentDay">Tuesday</small>
               <img
                 class="size-3"
                 src="./assets/images/icon-dropdown.svg"
@@ -352,51 +379,51 @@
 
               <!-- Weekly Droupdown -->
               <div
-                id="WeeksHolder"
+                id="DaysHolder"
                 class="absolute w-[190px] right-0 top-[100%] mt-2 bg-[var(--Neutral-800)] rounded-md p-1 shadow-md hidden"
               >
                 <!-- Weekly stats stats -->
-                <p
-                  class="DropdownDate font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                <!-- <p
+                  class="DropdownDay font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
                 >
                   Monday
                 </p>
                 <p
-                  class="DropdownDate font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                  class="DropdownDay font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
                 >
                   Tuesday
                 </p>
                 <p
-                  class="DropdownDate font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                  class="DropdownDay font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
                 >
                   Wednessday
                 </p>
                 <p
-                  class="DropdownDate font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                  class="DropdownDay font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
                 >
                   Thursday
                 </p>
                 <p
-                  class="DropdownDate font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                  class="DropdownDay font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
                 >
                   Friday
                 </p>
 
                 <p
-                  class="DropdownDate font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                  class="DropdownDay font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
                 >
                   Saturday
                 </p>
                 <p
-                  class="DropdownDate font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
+                  class="DropdownDay font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
                 >
                   Sunday
-                </p>
+                </p> -->
               </div>
             </div>
           </div>
 
-          <div class="space-y-3">
+          <div id="HourlyForecastContainer" class="space-y-3">
             <div
               class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
             >
