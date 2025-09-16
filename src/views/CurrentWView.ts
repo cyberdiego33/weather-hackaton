@@ -82,7 +82,10 @@ export const CurrentView = {
   },
   updateDate() {
     const CurrentDate = document.querySelector<HTMLElement>("#CurrentDate");
-    if (CurrentDate) CurrentDate.textContent = this.currentTime;
+    if (CurrentDate) {
+      CurrentDate.textContent = "";
+      CurrentDate.textContent = this.currentTime;
+    }
     if (!CurrentDate) console.log("No city name found", this.currentTime);
   },
   updateTemp() {
@@ -96,13 +99,20 @@ export const CurrentView = {
   updateFeels() {
     const feelsLike = this.dataset?.feelsLike ?? null;
     const CurrentFeels = document.querySelector<HTMLElement>("#CurrentFeels");
+    const CurrentFeelsUnit =
+      document.querySelector<HTMLElement>("#CurrentFeelsUnit");
     if (CurrentFeels) CurrentFeels.textContent = formatTemp(feelsLike);
+    if (CurrentFeelsUnit) CurrentFeelsUnit.textContent = "°";
   },
   updateHumidity() {
     const humidity = this.dataset?.feelsLike ?? null;
     const CurrentHumidity =
       document.querySelector<HTMLElement>("#CurrentHumidity");
+    const CurrentHumidityUnit = document.querySelector<HTMLElement>(
+      "#CurrentHumidityUnit"
+    );
     if (CurrentHumidity) CurrentHumidity.textContent = formatTemp(humidity);
+    if (CurrentHumidityUnit) CurrentHumidityUnit.textContent = "%";
   },
   updateWind() {
     const wind =
@@ -138,10 +148,39 @@ export const CurrentView = {
   },
 
   renderAll() {
+    const heroStr = `<div
+                        id="today-image"
+                        class="flex flex-col sm:flex-row justify-center h-full sm:justify-between sm:items-center gap-4 px-4 rounded-lg"
+                      >
+                        <div class="text-center sm:text-left">
+                          <p id="CityName" class="font-semibold text-2xl">
+                            ${this.cityName}
+                          </p>
+                          <p id="CurrentDate" class="text-[var(--Neutral-200)]">
+                            ${this.currentTime}
+                          </p>
+                        </div>
+                        <div class="flex items-center w-fit mx-auto sm:mx-0 gap-4">
+                          <div class="max-w-[60px] max-h-[60px]">
+                            <img
+                              class="size-20 object-center object-cover"
+                              src="./assets/images/icon-sunny.webp"
+                              alt="icon-sunny"
+                            />
+                          </div>
+                          <p class="font-semibold text-6xl">
+                            <span id="CurrentTemp">${this.currentTemp}</span>°
+                          </p>
+                        </div>
+                      </div>`;
+
     console.log("Rendering all");
-    this.updateCity();
-    this.updateDate();
-    this.updateTemp();
+    const HeroContainer = document.querySelector<HTMLElement>("#HeroContainer");
+
+    if (HeroContainer) {
+      HeroContainer.innerHTML = "";
+      HeroContainer.innerHTML = heroStr;
+    }
     this.updateFeels();
     this.updateHumidity();
     this.updateWind();
@@ -247,11 +286,3 @@ const PrecipitationEvent = function (): void {
 };
 
 UnitsEvents();
-
-// Refactoring time
-
-// Issues are
-// 1. Listening for events on unit changes
-// 2. there's a general switch to change the units
-// 3. How to connect the changes to the data that needs it
-// 4. Listening to changes on single units and changing it specific data

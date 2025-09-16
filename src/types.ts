@@ -116,3 +116,14 @@ export type HourlyForecastType = {
   apparentTempArray: number[];
   tempArray: number[];
 };
+
+export interface GeoLocation {
+  name: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+}
+
+export type GeoResponse = {
+  results?: GeoLocation[];
+};

@@ -40,7 +40,7 @@ const DisplayHours = function (
     const hour = formatHour(time);
     const temp = Number(presentHours.tempLgArray[index]);
     const newString = `<div
-                        class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+                        class="HourlyForecast flex items-center space-x-4 px-3 py-[5px] border border-neutral-700 bg-[var(--Neutral-600)] rounded-md"
                       >
                         <img
                           class="hourlyIcon size-8"

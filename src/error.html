@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../assets/images/favicon-32x32.png"
+    />
+
+    <title>Frontend Mentor | Weather app</title>
+
+    <link rel="stylesheet" href="../dist/output.css" />
+
+    <!-- <script type="module" src="../dist/appController.js" defer></script> -->
+  </head>
+  <body
+    class="bg-[var(--Neutral-900)] min-h-screen text-white p-10 lg:px-20 xl:px-30"
+  >
+    <header class="flex justify-between items-center">
+      <!-- Logo  -->
+      <div class="w-35">
+        <img class="size-full" src="../assets/images/logo.svg" alt="sun logo" />
+      </div>
+
+      <!-- Unit  -->
+      <div
+        id="unitsDropDown"
+        class="flex gap-1.5 items-center p-2 px-3 bg-[var(--Neutral-700)] rounded-md relative cursor-pointer"
+      >
+        <img
+          class="size-3"
+          src="../assets/images/icon-units.svg"
+          alt="icon-units"
+        />
+        <small>Units</small>
+        <img
+          class="size-3"
+          src="../assets/images/icon-dropdown.svg"
+          alt="icon-checkmark"
+        />
+      </div>
+    </header>
+
+    <main class="text-center mt-20">
+      <img
+        class="size-6 mx-auto"
+        src="../assets/images/icon-error.svg"
+        alt="icon-error"
+      />
+      <h1 class="text-4xl text-center font-bold my-5">Something went wrong</h1>
+      <p class="mb-5">
+        We couldn't connect to the server(Api error). Please try again in a few
+        moments.
+      </p>
+      <a href="/">
+        <div
+          class="flex items-center bg-[var(--Neutral-700)] py-1 px-3 rounded-md w-fit mx-auto gap-2"
+        >
+          <img
+            class="size-3"
+            src="../assets/images/icon-error.svg"
+            alt="icon-error"
+          />
+          <small>Retry</small>
+        </div></a
+      >
+    </main>
+  </body>
+</html>

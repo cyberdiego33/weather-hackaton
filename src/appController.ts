@@ -3,6 +3,8 @@ import { GetWeatherResponse } from "./weatherModel.js";
 import { CurrentView } from "./views/CurrentWView.js";
 import { DisplayDailyForcast } from "./views/DailyView.js";
 import { DisplayHourlyData } from "./views/HourlyView.js";
+import { Urls } from "./types.js";
+import { spinner, ErrorHandler } from "./inputController.js";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 // APIs
@@ -21,13 +23,12 @@ const getCurrentLocation = function (): void {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
   } else {
-    alert("Couldn't get your location");
+    ErrorHandler("Counldn't get your location");
   }
 };
-
 // Error Handler if location is !gotten
 const errorFunction = function (error: GeolocationPositionError): void {
-  alert("Strange Location");
+  ErrorHandler("Coundn't fetch Location");
 };
 
 // Success callback if location is gotten
@@ -39,15 +40,10 @@ const successFunction = function (position: GeolocationPosition): void {
   starterApp({ latitude, longitude });
 };
 
-type Urls = {
-  forecastUrl: string;
-  bigDataUrl: string;
-};
-
 type coordsType = { latitude: number; longitude: number };
 
 // Reusable for starting the app
-const starterApp = async function (coords: coordsType): Promise<void> {
+export const starterApp = async function (coords: coordsType): Promise<void> {
   const { latitude, longitude } = coords;
 
   // Use lat & lon to create api urls
@@ -58,6 +54,7 @@ const starterApp = async function (coords: coordsType): Promise<void> {
   const bigDataUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`;
 
   const urls: Urls = { forecastUrl, bigDataUrl };
+  spinner("on");
   try {
     // Calling GetWeatherFun to return state data
     const AppState = await GetWeatherResponse(urls);
@@ -74,78 +71,15 @@ const starterApp = async function (coords: coordsType): Promise<void> {
     // Displaying the Hourly data
     DisplayHourlyData(AppState.DailyHoursData, AppState.DailyData.weekDays);
   } catch (error) {
-    console.error(`Error from startApp ${error}`);
-  }
-};
-
-///////////////////////////////////////////////////////////////////////////////////////
-// User input event handler
-const FormDiv = document.querySelector<HTMLElement>("form");
-if (FormDiv instanceof HTMLElement) {
-  FormDiv.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const inputCity = FormDiv.querySelector("input");
-
-    if (!(inputCity instanceof HTMLElement)) return;
-
-    const city = inputCity.value;
-
-    if (!city) alert("nothing");
-
-    const coords = await SearchCity(city);
-
-    if (coords) {
-      // Call your startApp here
-      starterApp(coords);
-    }
-
-    inputCity.value = "";
-    inputCity.blur();
-  });
-}
-
-type GeoResponse = {
-  results?: {
-    name: string;
-    latitude: number;
-    longitude: number;
-    country: string;
-  }[];
-};
-
-// Reusable function to get lat/lon from a city name
-const SearchCity = async (
-  city: string
-): Promise<{ latitude: number; longitude: number } | null> => {
-  try {
-    const res = await fetch(
-      `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
-        city
-      )}&count=1`
-    );
-    if (!res.ok) throw new Error("Network response failed");
-
-    const data: GeoResponse = await res.json();
-
-    if (!data.results || data.results.length === 0) {
-      alert("City not found");
-      return null;
-    }
-
-    const firstResult = data.results[0];
-    if (!firstResult) return null; // safeguard
-
-    const { latitude, longitude } = firstResult;
-    return { latitude, longitude };
-  } catch (err) {
-    console.error("Error fetching city:", err);
-    return null;
+    alert(`Error from startApp ${error}`);
+    window.location.href = "../src/error.html";
+  } finally {
+    spinner("off");
   }
 };
 
 const init = function (): void {
-  getCurrentLocation();
+  // getCurrentLocation();
 };
 
 init();

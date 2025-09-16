@@ -44,7 +44,8 @@
       <!-- Unit  -->
       <div
         id="unitsDropDown"
-        class="flex gap-1.5 items-center p-2 px-3 bg-[var(--Neutral-700)] rounded-md relative cursor-pointer"
+        tabindex="0"
+        class="flex gap-1.5 items-center p-2 px-3 bg-[var(--Neutral-700)] rounded-md relative cursor-pointer focus:outline-none focus:ring-2 focus:ring-white focus:border-white focus:ring-offset-2 focus:ring-offset-[var(--Neutral-900)] border border-[var(--Neutral-600)]"
       >
         <img
           class="size-3"
@@ -61,7 +62,7 @@
         <!-- Unit dropdown -->
         <div
           id="UnitOptions"
-          class="absolute w-[190px] right-0 top-[100%] mt-2 bg-[var(--Neutral-800)] rounded-md p-1 z-10 hidden"
+          class="absolute w-[190px] right-0 top-[100%] mt-2 bg-[var(--Neutral-800)] rounded-md p-1 z-10 border border-[var(--Neutral-600)] hidden"
         >
           <!-- Switch to imperial  -->
           <div
@@ -166,53 +167,56 @@
       </h1>
 
       <!-- Input City  -->
-      <form class="max-w-[450px] mx-auto flex gap-3">
-        <label
-          for="searchInput"
-          class="bg-[var(--Neutral-700)] flex flex-1 items-center p-2 rounded-md"
-        >
-          <img
-            class="size-5"
-            src="./assets/images/icon-search.svg"
-            alt="icon-search" />
-          <input
-            id="searchInput"
-            class="px-2 min-w-2 w-full border-0 outline-0"
-            placeholder="Search for a place"
-            type="text"
-        /></label>
-        <button
-          type="submit"
-          class="px-4 py-1 text-sm font-semibold bg-[var(--Blue-500)] rounded-md"
-        >
-          Search
-        </button>
+      <form class="max-w-[450px] mx-auto">
+        <div class="sm:flex gap-3">
+          <label
+            for="searchInput"
+            class="relative bg-[var(--Neutral-800)] flex flex-1 items-center pl-4 p-2 rounded-md focus-within:ring-2 focus-within:ring-white focus-within:ring-offset-2 focus-within:ring-offset-[var(--Neutral-900)] cursor-pointer"
+          >
+            <img
+              class="size-5"
+              src="./assets/images/icon-search.svg"
+              alt="icon-search"
+            />
+            <input
+              id="searchInput"
+              class="px-2 min-w-2 w-full border-0 outline-0"
+              placeholder="Search for a place"
+              type="text"
+              autocomplete="off"
+            />
+
+            <!-- absolute positioning dropdown  -->
+            <ul
+              id="ULSuggestion"
+              class="list-none absolute bg-[var(--Neutral-800)] p-1 inset-x-0 top-[110%] rounded-md hidden"
+            ></ul>
+          </label>
+          <button
+            type="submit"
+            class="px-4 py-1 w-full mt-2 sm:w-fit sm:mt-0 text-sm font-semibold bg-[var(--Blue-500)] rounded-md cursor-pointer focus:ring-2 focus:blue-700 focus:ring-offset-2 focus:ring-offset-[var(--Neutral-900)]"
+          >
+            Search
+          </button>
+        </div>
       </form>
 
-      <section class="grid lg:grid-cols-3 gap-7 mt-10">
+      <section class="grid md:grid-cols-3 gap-7 mt-10">
         <!-- City Weather Stats  -->
-        <section class="col-span-2">
+        <section class="md:col-span-2">
           <!-- Hero Section  -->
           <div
-            id="today-image"
-            class="flex justify-between gap-4 py-10 xl:py-15 px-4 rounded-lg"
+            id="HeroContainer"
+            class="rounded-lg h-[180px] bg-[var(--Neutral-800)]"
           >
-            <div>
-              <p id="CityName" class="font-semibold text-xl">Berlin, Germany</p>
-              <small id="CurrentDate" class="text-[var(--Neutral-200)]"
-                >Tuesday, Aug 5, 2025</small
-              >
+            <!-- Skeleton container  -->
+            <div class="flex items-center justify-center h-full">
+              <h1 class="text-2xl md:text-4xl font-bold text-center px-4">
+                Discover the weather near you.
+              </h1>
             </div>
-            <div class="flex items-center gap-4">
-              <img
-                class="size-15"
-                src="./assets/images/icon-sunny.webp"
-                alt="icon-sunny"
-              />
-              <p class="font-semibold text-6xl">
-                <span id="CurrentTemp">20</span>°
-              </p>
-            </div>
+            <!-- Main Container  -->
+            <!-- Main Hero Section Loading from currentWView-->
           </div>
 
           <!-- Weather Stats -->
@@ -220,7 +224,10 @@
             <div class="bg-[var(--Neutral-600)] h-[84px] p-3 rounded-md">
               <div id="FeelsBox" class="">
                 <small>Feels like</small>
-                <p class="mt-2 text-xl"><span id="CurrentFeels">--</span>°</p>
+                <p class="mt-2 text-xl">
+                  <span id="CurrentFeels">--</span
+                  ><span id="CurrentFeelsUnit"></span>
+                </p>
               </div>
             </div>
 
@@ -228,7 +235,8 @@
               <div id="FeelsBox" class="">
                 <small>Humidity</small>
                 <p class="mt-2 text-xl">
-                  <span id="CurrentHumidity">--</span>%
+                  <span id="CurrentHumidity">--</span>
+                  <span id="CurrentHumidityUnit"></span>
                 </p>
               </div>
             </div>
@@ -238,7 +246,7 @@
                 <small>Wind</small>
                 <p class="mt-2 text-xl">
                   <span id="CurrentWind">--</span>
-                  <span id="CurrentWindUnit">km/h</span>
+                  <span id="CurrentWindUnit"></span>
                 </p>
               </div>
             </div>
@@ -248,7 +256,7 @@
                 <small>Precipitation</small>
                 <p class="mt-2 text-xl">
                   <span id="CurrentPrecipitation">--</span>
-                  <span id="CurrentPrecipitationUnit">mm</span>
+                  <span id="CurrentPrecipitationUnit"></span>
                 </p>
               </div>
             </div>
@@ -259,109 +267,46 @@
             <p>Daily forecast</p>
             <div id="forecast-grid" class="gap-4 mt-4">
               <div
-                class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
+                class="DailyForecast h-[125px] p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
               >
-                <p class="weekDay text-center">Mon</p>
-                <img
-                  class="DailyFeelsIcon size-10 mx-auto"
-                  src="./assets/images/icon-rain.webp"
-                  alt="icon-rain"
-                />
-                <div class="flex justify-between">
-                  <small><span class="maxTemp">20</span>°</small>
-                  <small><span class="minTemp">20</span>°</small>
-                </div>
+                <!-- Loading from Daily View -->
               </div>
               <div
-                class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
+                class="DailyForecast h-[125px] p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
               >
-                <p class="weekDay text-center">Tue</p>
-                <img
-                  class="DailyFeelsIcon size-10 mx-auto"
-                  src="./assets/images/icon-rain.webp"
-                  alt="icon-rain"
-                />
-                <div class="flex justify-between">
-                  <small><span class="maxTemp">20</span>°</small>
-                  <small><span class="minTemp">20</span>°</small>
-                </div>
+                <!-- Loading from Daily View -->
               </div>
               <div
-                class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
+                class="DailyForecast h-[125px] p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
               >
-                <p class="weekDay text-center">Wed</p>
-                <img
-                  class="DailyFeelsIcon size-10 mx-auto"
-                  src="./assets/images/icon-rain.webp"
-                  alt="icon-rain"
-                />
-                <div class="flex justify-between">
-                  <small><span class="maxTemp">20</span>°</small>
-                  <small><span class="minTemp">20</span>°</small>
-                </div>
+                <!-- Loading from Daily View -->
               </div>
               <div
-                class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
+                class="DailyForecast h-[125px] p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
               >
-                <p class="weekDay text-center">Thur</p>
-                <img
-                  class="DailyFeelsIcon size-10 mx-auto"
-                  src="./assets/images/icon-rain.webp"
-                  alt="icon-rain"
-                />
-                <div class="flex justify-between">
-                  <small><span class="maxTemp">20</span>°</small>
-                  <small><span class="minTemp">20</span>°</small>
-                </div>
+                <!-- Loading from Daily View -->
               </div>
               <div
-                class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
+                class="DailyForecast h-[125px] p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
               >
-                <p class="weekDay text-center">Fri</p>
-                <img
-                  class="DailyFeelsIcon size-10 mx-auto"
-                  src="./assets/images/icon-rain.webp"
-                  alt="icon-rain"
-                />
-                <div class="flex justify-between">
-                  <small><span class="maxTemp">20</span>°</small>
-                  <small><span class="minTemp">20</span>°</small>
-                </div>
+                <!-- Loading from Daily View -->
               </div>
               <div
-                class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
+                class="DailyForecast h-[125px] p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
               >
-                <p class="weekDay text-center">Sat</p>
-                <img
-                  class="DailyFeelsIcon size-10 mx-auto"
-                  src="./assets/images/icon-rain.webp"
-                  alt="icon-rain"
-                />
-                <div class="flex justify-between">
-                  <small><span class="maxTemp">20</span>°</small>
-                  <small><span class="minTemp">20</span>°</small>
-                </div>
+                <!-- Loading from Daily View -->
               </div>
               <div
-                class="DailyForecast p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
+                class="DailyForecast h-[125px] p-2 bg-[var(--Neutral-700)] space-y-2 rounded-md"
               >
-                <p class="weekDay text-center">Sun</p>
-                <img
-                  class="DailyFeelsIcon size-10 mx-auto"
-                  src="./assets/images/icon-rain.webp"
-                  alt="icon-rain"
-                />
-                <div class="flex justify-between">
-                  <small><span class="maxTemp">20</span>°</small>
-                  <small><span class="minTemp">20</span>°</small>
-                </div>
+                <!-- Loading from Daily View -->
               </div>
             </div>
           </div>
         </section>
 
         <!-- Hourly forecast section  -->
-        <section class="bg-[var(--Neutral-700)] rounded-xl p-4 space-y-2">
+        <section class="bg-[var(--Neutral-700)] rounded-xl h-fit p-4 space-y-2">
           <div class="flex justify-between items-center">
             <p>Hourly forecast</p>
 
@@ -370,7 +315,7 @@
               id="hourdropdown"
               class="flex gap-1.5 items-center p-2 px-3 bg-[var(--Neutral-600)] rounded-md relative cursor-pointer"
             >
-              <small class="presentDay">Tuesday</small>
+              <small class="presentDay">...</small>
               <img
                 class="size-3"
                 src="./assets/images/icon-dropdown.svg"
@@ -380,126 +325,63 @@
               <!-- Weekly Droupdown -->
               <div
                 id="DaysHolder"
-                class="absolute w-[190px] right-0 top-[100%] mt-2 bg-[var(--Neutral-800)] rounded-md p-1 shadow-md hidden"
+                class="absolute w-[190px] right-0 top-[100%] mt-2 bg-[var(--Neutral-800)] rounded-md p-1 shadow-md border border-[var(--Neutral-600)] hidden"
               >
                 <!-- Weekly stats stats -->
-                <!-- <p
-                  class="DropdownDay font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
-                >
-                  Monday
-                </p>
-                <p
-                  class="DropdownDay font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
-                >
-                  Tuesday
-                </p>
-                <p
-                  class="DropdownDay font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
-                >
-                  Wednessday
-                </p>
-                <p
-                  class="DropdownDay font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
-                >
-                  Thursday
-                </p>
-                <p
-                  class="DropdownDay font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
-                >
-                  Friday
-                </p>
-
-                <p
-                  class="DropdownDay font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
-                >
-                  Saturday
-                </p>
-                <p
-                  class="DropdownDay font-semibold text-sm text-nowrap p-1 rounded-md hover:bg-[var(--Neutral-700)]"
-                >
-                  Sunday
-                </p> -->
+                <!-- Loading from hourly view -->
               </div>
             </div>
           </div>
 
-          <div id="HourlyForecastContainer" class="space-y-3">
+          <div
+            id="HourlyForecastContainer"
+            class="space-y-2.5 max-h-[418px] overflow-y-auto"
+          >
             <div
-              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md h-[44px]"
             >
-              <img
-                class="hourlyIcon size-8"
-                src="./assets/images/icon-overcast.webp"
-                alt="icon-overcast"
-              />
-              <p><span class="hour">3 PM</span></p>
-              <small class="ml-auto"><span class="temp">20</span>°</small>
+              <!-- Loading from Hourly View -->
+              hjskd
             </div>
             <div
-              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md h-[44px]"
             >
-              <img
-                class="hourlyIcon size-8"
-                src="./assets/images/icon-overcast.webp"
-                alt="icon-overcast"
-              />
-              <p><span class="hour">4 PM</span></p>
-              <small class="ml-auto"><span class="temp">20</span>°</small>
+              <!-- Loading from Daily View -->
             </div>
             <div
-              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md h-[44px]"
             >
-              <img
-                class="hourlyIcon size-8"
-                src="./assets/images/icon-overcast.webp"
-                alt="icon-overcast"
-              />
-              <p><span class="hour">5 PM</span></p>
-              <small class="ml-auto"><span class="temp">20</span>°</small>
+              <!-- Loading from Daily View -->
             </div>
             <div
-              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md h-[44px]"
             >
-              <img
-                class="hourlyIcon size-8"
-                src="./assets/images/icon-overcast.webp"
-                alt="icon-overcast"
-              />
-              <p><span class="hour">6 PM</span></p>
-              <small class="ml-auto"><span class="temp">20</span>°</small>
+              <!-- Loading from Daily View -->
             </div>
             <div
-              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md h-[44px]"
             >
-              <img
-                class="hourlyIcon size-8"
-                src="./assets/images/icon-overcast.webp"
-                alt="icon-overcast"
-              />
-              <p><span class="hour">7 PM</span></p>
-              <small class="ml-auto"><span class="temp">20</span>°</small>
+              <!-- Loading from Daily View -->
             </div>
             <div
-              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md h-[44px]"
             >
-              <img
-                class="hourlyIcon size-8"
-                src="./assets/images/icon-overcast.webp"
-                alt="icon-overcast"
-              />
-              <p><span class="hour">8 PM</span></p>
-              <small class="ml-auto"><span class="temp">20</span>°</small>
+              <!-- Loading from Daily View -->
             </div>
             <div
-              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md"
+              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md h-[44px]"
             >
-              <img
-                class="hourlyIcon size-8"
-                src="./assets/images/icon-overcast.webp"
-                alt="icon-overcast"
-              />
-              <p><span class="hour">3 PM</span></p>
-              <small class="ml-auto"><span class="temp">20</span>°</small>
+              <!-- Loading from Daily View -->
+            </div>
+            <div
+              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md h-[44px]"
+            >
+              <!-- Loading from Daily View -->
+            </div>
+            <div
+              class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md h-[44px]"
+            >
+              <!-- Loading from Daily View -->
             </div>
           </div>
         </section>

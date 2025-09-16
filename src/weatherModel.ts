@@ -256,10 +256,10 @@ const SliceHourlyData = function (time: string, data: DailyHoursDataType) {
 
     // to compare currentIso and find index
     let indexStart = dates.findIndex((d) => d.endsWith(currentHourISO));
-    let indexEnd = indexStart + 7;
+    let indexEnd = indexStart + 12;
 
     if (indexEnd > dates.length) {
-      indexStart = dates.length - 7; // shift back so you still get 8 items
+      indexStart = dates.length - 12; // shift back so you still get 8 items
       indexEnd = dates.length;
     }
 
@@ -325,6 +325,7 @@ const DestructureWeather = function (
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////
+// Main controller
 
 export const GetWeatherResponse = async function ({
   forecastUrl,
@@ -341,7 +342,7 @@ export const GetWeatherResponse = async function ({
     // sending for destructuring
     return DestructureWeather(getWeatherObj, CityCountry);
   } catch (error) {
-    throw new Error(`Error from getweather: ${error}`);
+    throw new Error(`${error}`);
   }
 };
 
@@ -354,6 +355,7 @@ const OpenMeteoFunc = async function (url: string): Promise<WeatherResp> {
     const data = await response.json();
     return data;
   } catch (error) {
+    console.log("Error coming from Open Meteo Api");
     throw new Error(`OpenMeteo: ${error}`);
   }
 };
@@ -363,10 +365,7 @@ type cityCountry = string;
 const GetCountryBigData = async function (url: string): Promise<cityCountry> {
   try {
     const response = await fetch(url);
-    if (!response.ok) {
-      alert("Failed to fetch response");
-      throw new Error("Failed to fetch response");
-    }
+    if (!response.ok) throw new Error("Failed to fetch response");
 
     const data = await response.json();
     // console.log(data);
@@ -377,22 +376,7 @@ const GetCountryBigData = async function (url: string): Promise<cityCountry> {
 
     return cityCountry;
   } catch (error) {
+    console.log("Error coming from Big Data Api");
     throw new Error(`bigData ${error}`);
   }
 };
-
-/*
-| 0 | Clear sky |
-| 1, 2, 3 | Mainly clear, partly cloudy, and overcast |
-| 45, 48 | Fog and depositing rime fog |
-| 51, 53, 55 | Drizzle: Light, moderate, and dense intensity |
-| 56, 57 | Freezing Drizzle: Light and dense intensity |
-| 61, 63, 65 | Rain: Slight, moderate, and heavy intensity |
-| 66, 67 | Freezing Rain: Light and heavy intensity |
-| 71, 73, 75 | Snow fall: Slight, moderate, and heavy intensity |
-| 77 | Snow grains |
-| 80, 81, 82 | Rain showers: Slight, moderate, and violent |
-| 85, 86 | Snow showers slight and heavy |
-| 95 | Thunderstorm: Slight or moderate |
-| 96, 99 | Thunderstorm with slight and heavy hail
-*/
