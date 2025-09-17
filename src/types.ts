@@ -23,9 +23,11 @@ export interface WeatherResp {
     relative_humidity_2m: number[];
     precipitation: number[];
     temperature_2m: number[];
+    weathercode: number[];
   };
   daily: {
     time: string[];
+    weathercode: number[];
     temperature_2m_max: number[];
     temperature_2m_min: number[];
   };
@@ -43,49 +45,27 @@ export type WeekdayType =
 export type DailyHours = {
   timeLgArray: string[];
   feelslgArray: number[];
-  tempLgArray: number[];
+  tempsObject: {
+    imperial: number[];
+    metric: number[];
+  };
+  weatherCodeArray: string[];
 };
 
 export type DailyHoursDataType = Record<WeekdayType, DailyHours>;
 
 export type statetype = {
-  currentData: {
-    cityName: string | null;
-    currentTime: string | null;
-    metricData: {
-      temperature: number | null;
-      feelsLike: number | null;
-      humidity: number | null;
-      wind: number | null;
-      precipitation: number | null;
-    };
-    imperialData: {
-      temperature: number | null;
-      feelsLike: number | null;
-      humidity: number | null;
-      wind: number | null;
-      precipitation: number | null;
-    };
-  };
-  DailyData: {
-    dateArray: string[] | null;
-    maxTemp: number[];
-    minTemp: number[];
-    weekDays: string[];
-  };
-  HourlyData: {
-    timeArray: string[];
-    apparentTempArray: number[];
-    tempArray: number[];
-  };
+  currentData: currentDataType;
+  DailyData: DailyForecastType;
   DailyHoursData: DailyHoursDataType;
 };
 
 export type currentDataType = {
   cityName: string | null;
   currentTime: string | null;
-  metricData: MetricsDataType;
-  imperialData: imperialDataType;
+  weatherCode: string | null;
+  metric: MetricsDataType;
+  imperial: imperialDataType;
 };
 
 export type MetricsDataType = {
@@ -106,15 +86,16 @@ export type imperialDataType = {
 
 export type DailyForecastType = {
   dateArray: string[] | null;
-  maxTemp: number[];
-  minTemp: number[];
+  weatherCodeArray: string[];
+  metric: {
+    maxTemp: number[];
+    minTemp: number[];
+  };
+  imperial: {
+    maxTemp: number[];
+    minTemp: number[];
+  };
   weekDays: string[];
-};
-
-export type HourlyForecastType = {
-  timeArray: string[];
-  apparentTempArray: number[];
-  tempArray: number[];
 };
 
 export interface GeoLocation {
@@ -126,4 +107,11 @@ export interface GeoLocation {
 
 export type GeoResponse = {
   results?: GeoLocation[];
+};
+
+export type currentUnitType = {
+  imperialMode: boolean;
+  temperature: "metric" | "imperial";
+  wind: "metric" | "imperial";
+  precipitation: "metric" | "imperial";
 };

@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="google-site-verification"
+      content="google6ab5655dda329ecb.html"
+    />
     <!-- displays site properly based on user's device -->
 
     <link
@@ -62,7 +66,7 @@
         <!-- Unit dropdown -->
         <div
           id="UnitOptions"
-          class="absolute w-[190px] right-0 top-[100%] mt-2 bg-[var(--Neutral-800)] rounded-md p-1 z-10 border border-[var(--Neutral-600)] hidden"
+          class="absolute w-[190px] right-0 top-[100%] mt-2 bg-[var(--Neutral-800)] rounded-md p-1 z-10 border border-[var(--Neutral-600)] shadow-md hidden"
         >
           <!-- Switch to imperial  -->
           <div
@@ -78,7 +82,7 @@
           </div>
 
           <!-- Choose Temperature  -->
-          <div id="TemperatureDiv" class="border-b">
+          <div id="TemperatureDiv" class="unit-group border-b">
             <small class="ml-1">Temperature</small>
             <div
               data-option="metric"
@@ -105,7 +109,7 @@
           </div>
 
           <!-- Choose Wind Speed  -->
-          <div id="WindspeedDiv" class="border-b">
+          <div id="WindspeedDiv" class="unit-group border-b">
             <small class="ml-1">Wind speed</small>
             <div
               data-option="metric"
@@ -132,7 +136,7 @@
           </div>
 
           <!-- Choose Precipitation  -->
-          <div id="PrecipitationDiv">
+          <div id="PrecipitationDiv" class="unit-group">
             <small class="ml-1">Precipitation</small>
             <div
               data-option="metric"
@@ -189,8 +193,14 @@
             <!-- absolute positioning dropdown  -->
             <ul
               id="ULSuggestion"
-              class="list-none absolute bg-[var(--Neutral-800)] p-1 inset-x-0 top-[110%] rounded-md hidden"
+              class="list-none absolute bg-[var(--Neutral-800)] px-1 inset-x-0 top-[110%] rounded-md shadow hidden"
             ></ul>
+
+            <!-- new status element -->
+            <div
+              id="form-status"
+              class="absolute bg-[var(--Neutral-800)] px-1 inset-x-0 top-[110%] rounded-md shadow text-sm"
+            ></div>
           </label>
           <button
             type="submit"
@@ -221,7 +231,7 @@
 
           <!-- Weather Stats -->
           <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-7">
-            <div class="bg-[var(--Neutral-600)] h-[84px] p-3 rounded-md">
+            <div class="bg-[var(--Neutral-800)] h-[84px] p-3 rounded-md">
               <div id="FeelsBox" class="">
                 <small>Feels like</small>
                 <p class="mt-2 text-xl">
@@ -231,7 +241,7 @@
               </div>
             </div>
 
-            <div class="bg-[var(--Neutral-600)] h-[84px] p-3 rounded-md">
+            <div class="bg-[var(--Neutral-800)] h-[84px] p-3 rounded-md">
               <div id="FeelsBox" class="">
                 <small>Humidity</small>
                 <p class="mt-2 text-xl">
@@ -241,7 +251,7 @@
               </div>
             </div>
 
-            <div class="bg-[var(--Neutral-600)] h-[84px] p-3 rounded-md">
+            <div class="bg-[var(--Neutral-800)] h-[84px] p-3 rounded-md">
               <div id="FeelsBox" class="">
                 <small>Wind</small>
                 <p class="mt-2 text-xl">
@@ -251,7 +261,7 @@
               </div>
             </div>
 
-            <div class="bg-[var(--Neutral-600)] h-[84px] p-3 rounded-md">
+            <div class="bg-[var(--Neutral-800)] h-[84px] p-3 rounded-md">
               <div id="FeelsBox" class="">
                 <small>Precipitation</small>
                 <p class="mt-2 text-xl">
@@ -341,7 +351,6 @@
               class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md h-[44px]"
             >
               <!-- Loading from Hourly View -->
-              hjskd
             </div>
             <div
               class="HourlyForecast flex items-center space-x-4 px-3 py-2 bg-[var(--Neutral-600)] rounded-md h-[44px]"

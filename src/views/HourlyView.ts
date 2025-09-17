@@ -1,4 +1,5 @@
 import { DailyHoursDataType, WeekdayType, DailyHours } from "../types.js";
+import { currentUnit } from "../events/unitsController.js";
 
 // Helper function
 function formatHour(isoString: string): string {
@@ -9,53 +10,70 @@ function formatHour(isoString: string): string {
   });
 }
 
-export const DisplayHourlyData = function (
-  DailyHoursData: DailyHoursDataType,
-  weekDays: string[]
-): void {
-  const presentDay = weekDays[0] as WeekdayType;
-  const presentHours = DailyHoursData[presentDay];
+export const HourlyView = {
+  HoursData: null as DailyHoursDataType | null,
 
-  // Populate the present days hourly data
-  DisplayHours(presentDay, presentHours);
+  DisplayHourlyData(DailyHoursData: DailyHoursDataType, weekDays: string[]) {
+    this.HoursData = DailyHoursData;
 
-  // Adding the WeekDays in order into the dropdown
-  DropdownDateView(presentDay, weekDays, DailyHoursData);
-  hourdropdownEvent();
-};
+    const presentDay = weekDays[0] as WeekdayType;
+    const presentHours = DailyHoursData[presentDay];
 
-const DisplayHours = function (
-  presentDay: WeekdayType,
-  presentHours: DailyHours
-): void {
-  const presentDayDiv = document.querySelector(".presentDay")!;
-  const HourlyForecastContainer = document.querySelector(
-    "#HourlyForecastContainer"
-  )!;
+    this.DisplayHours(presentDay, presentHours);
+    DropdownDateView(presentDay, weekDays, DailyHoursData);
+    hourdropdownEvent();
+  },
+  DisplayHours(presentDay: WeekdayType, presentHours: DailyHours): void {
+    const unit = currentUnit.temperature;
 
-  presentDayDiv.textContent = presentDay;
-  HourlyForecastContainer.innerHTML = "";
+    const presentDayDiv = document.querySelector(".presentDay")!;
+    const HourlyForecastContainer = document.querySelector(
+      "#HourlyForecastContainer"
+    )!;
 
-  presentHours.timeLgArray.forEach((time, index) => {
-    const hour = formatHour(time);
-    const temp = Number(presentHours.tempLgArray[index]);
-    const newString = `<div
+    presentDayDiv.textContent = presentDay;
+    HourlyForecastContainer.innerHTML = "";
+
+    presentHours.timeLgArray.forEach((time, index) => {
+      const hour = formatHour(time);
+      const temp = Number(presentHours.tempsObject[unit][index]);
+      const weatherIcon = presentHours.weatherCodeArray[index];
+      const newString = `<div
                         class="HourlyForecast flex items-center space-x-4 px-3 py-[5px] border border-neutral-700 bg-[var(--Neutral-600)] rounded-md"
                       >
                         <img
                           class="hourlyIcon size-8"
-                          src="./assets/images/icon-overcast.webp"
-                          alt="icon-overcast"
+                          src="./assets/images/icon-${weatherIcon}.webp"
+                          alt="icon-${weatherIcon}"
                         />
                         <p><span class="hour">${hour}</span></p>
-                        <small class="ml-auto"><span class="temp">${Math.ceil(
+                        <small class="ml-auto"><span class="hour-temp">${Math.ceil(
                           temp
                         )}</span>°</small>
                       </div>`;
 
-    HourlyForecastContainer.insertAdjacentHTML("beforeend", newString);
-  });
+      HourlyForecastContainer.insertAdjacentHTML("beforeend", newString);
+    });
+  },
+  updateHourlyViews() {
+    const unit = currentUnit.temperature;
+
+    const presentDay = document.querySelector<HTMLElement>(".presentDay")
+      ?.textContent as WeekdayType;
+    if (!presentDay) return;
+    if (!this.HoursData) return;
+
+    const dayData = this.HoursData[presentDay].tempsObject[unit];
+    const HourlyTemp = document.querySelectorAll<HTMLElement>(".hour-temp");
+
+    HourlyTemp.forEach((hour, index) => {
+      if (dayData[index]) hour.textContent = `${Math.ceil(dayData[index])}`;
+    });
+  },
 };
+
+/////////////////////////////////////////////////////
+// Event Listeners
 
 const DropdownDateView = function (
   presentDay: WeekdayType,
@@ -88,7 +106,7 @@ const DropdownDateView = function (
     const newDay = target.textContent.trim() as WeekdayType;
     const newHours = DailyHoursData[newDay];
 
-    DisplayHours(newDay, newHours);
+    HourlyView.DisplayHours(newDay, newHours);
 
     const allDropDay = DaysHolder.querySelectorAll(".DropdownDay");
     allDropDay.forEach((day) => {

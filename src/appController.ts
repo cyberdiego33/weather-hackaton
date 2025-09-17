@@ -1,14 +1,18 @@
 // import { renderWeather } from "./views/weatherView.js";
 import { GetWeatherResponse } from "./weatherModel.js";
 import { CurrentView } from "./views/CurrentWView.js";
-import { DisplayDailyForcast } from "./views/DailyView.js";
-import { DisplayHourlyData } from "./views/HourlyView.js";
+import { DailyView } from "./views/DailyView.js";
+import { HourlyView } from "./views/HourlyView.js";
 import { Urls } from "./types.js";
-import { spinner, ErrorHandler } from "./inputController.js";
+import { spinner, ErrorHandler } from "./events/inputController.js";
+import { UnitsEvents } from "./events/unitsController.js";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 // APIs
 // const bigDataUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`;
+
+////////////////////////////////////////////////////////////////////////////////
+// Helper function
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -48,8 +52,11 @@ export const starterApp = async function (coords: coordsType): Promise<void> {
 
   // Use lat & lon to create api urls
   // prettier-ignore
-  const forecastUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,windspeed_10m&daily=temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min&timezone=auto
-  `;
+  const forecastUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}
+&current_weather=true
+&hourly=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,windspeed_10m,weathercode
+&daily=temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,weathercode
+&timezone=auto`;
 
   const bigDataUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`;
 
@@ -66,12 +73,16 @@ export const starterApp = async function (coords: coordsType): Promise<void> {
     CurrentView.renderAll();
 
     // Displaying the daily forecast
-    DisplayDailyForcast(AppState.DailyData);
+    DailyView.DisplayDailyForcast(AppState.DailyData);
 
     // Displaying the Hourly data
-    DisplayHourlyData(AppState.DailyHoursData, AppState.DailyData.weekDays);
+    HourlyView.DisplayHourlyData(
+      AppState.DailyHoursData,
+      AppState.DailyData.weekDays
+    );
+
+    UnitsEvents();
   } catch (error) {
-    alert(`Error from startApp ${error}`);
     window.location.href = "../src/error.html";
   } finally {
     spinner("off");
@@ -79,7 +90,7 @@ export const starterApp = async function (coords: coordsType): Promise<void> {
 };
 
 const init = function (): void {
-  // getCurrentLocation();
+  getCurrentLocation();
 };
 
 init();
