@@ -107,7 +107,7 @@ export const CurrentView = {
                         <div class="flex items-center w-fit mx-auto sm:mx-0 gap-4">
                           <div class="max-w-[60px] max-h-[60px]">
                             <img
-                              class="size-20 object-center object-cover"
+                              class="size-15 object-center object-cover"
                               src="./assets/images/icon-${this.weathercode}.webp"
                               alt="icon-${this.weathercode}"
                             />

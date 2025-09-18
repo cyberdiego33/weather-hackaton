@@ -7,6 +7,7 @@ const form = document.querySelector<HTMLFormElement>("form");
 const input = document.querySelector<HTMLInputElement>("#searchInput");
 const suggestionBox = document.querySelector<HTMLUListElement>("#ULSuggestion");
 const statusBox = document.querySelector("#form-status");
+const unitsOptions = document.querySelector<HTMLElement>("#UnitOptions")!;
 const unitsDropDown = document.querySelector<HTMLElement>("#unitsDropDown")!;
 
 ///////////////////////////////////////////////////////////////
@@ -66,7 +67,6 @@ async function fetchCities(query: string): Promise<GeoLocation[]> {
 
     const data: GeoResponse = await res.json();
     if (!data.results) {
-      ErrorHandler("Couldn't find city");
       return [];
     }
     // ✅ Deduplicate by "name + country"
@@ -158,14 +158,16 @@ if (input) {
     }
 
     if (!isInsideUnits) {
-      unitsDropDown.classList.add("hidden");
+      unitsOptions.classList.add("hidden");
     }
   });
 }
 
 input!.addEventListener("keydown", (e: KeyboardEvent) => {
   const items = suggestionBox?.querySelectorAll("li");
-  if (!items || items.length === 0) return;
+  if (!items || items.length === 0) {
+    return;
+  }
 
   if (e.key === "ArrowDown") {
     e.preventDefault();
