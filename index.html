@@ -15,6 +15,12 @@
       sizes="32x32"
       href="./assets/images/favicon-32x32.png"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
+      rel="stylesheet"
+    />
 
     <title>Frontend Mentor | Weather app</title>
 
@@ -166,7 +172,7 @@
     </header>
 
     <main class="">
-      <h1 class="text-4xl text-center font-bold mt-20 mb-10">
+      <h1 class="heading text-4xl text-center font-bold mt-20 mb-10">
         How's the sky looking today?
       </h1>
 
@@ -398,3 +404,8 @@
     </main>
   </body>
 </html>
+
+<!-- "scripts": {
+    "dev": "concurrently \"tsc -w\" \"npx tailwindcss -i ./src/styles.css -o ./dist/output.css --watch\" \"live-server dist --open=index.html\"",
+    "build": "tsc && npx tailwindcss -i ./src/styles.css -o ./dist/output.css --minify && npx shx cp src/index.html dist/"
+  }, -->

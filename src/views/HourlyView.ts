@@ -39,7 +39,7 @@ export const HourlyView = {
       const temp = Number(presentHours.tempsObject[unit][index]);
       const weatherIcon = presentHours.weatherCodeArray[index];
       const newString = `<div
-                        class="HourlyForecast flex items-center space-x-4 px-3 py-[5px] border border-neutral-700 bg-[var(--Neutral-600)] rounded-md"
+                        class="HourlyForecast flex items-center space-x-4 px-3 py-[5px] border border-neutral-500/50 bg-[var(--Neutral-600)] rounded-md"
                       >
                         <img
                           class="hourlyIcon size-8"
